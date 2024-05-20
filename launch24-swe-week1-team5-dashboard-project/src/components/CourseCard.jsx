@@ -1,4 +1,4 @@
-import './CourseCard.css'
+import '../styles/CourseCard.css'
 
 
 export const CourseCard = ({course=null, courseid=null}) => {
