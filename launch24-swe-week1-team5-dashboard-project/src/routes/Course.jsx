@@ -4,7 +4,7 @@ const Main = () => {
     return (
         <>
             <NavBar />
-            <p>This is the calendar page</p>
+            <p>This is a course page</p>
         </>
     )
 };

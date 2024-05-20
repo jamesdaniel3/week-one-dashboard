@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
 import Home from "./routes/Home";
 import Calendar from "./routes/Calendar";
 import Directory from "./routes/Directory";
+import Course from "./routes/Course.jsx";
 
 const router = createBrowserRouter([
     {
@@ -12,11 +12,15 @@ const router = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: "/",
+        path: "/course",
+        element: <Course />,
+    },
+    {
+        path: "/calendar",
         element: <Calendar />,
     },
     {
-        path: "/",
+        path: "/directory",
         element: <Directory />,
     },
 ]);
