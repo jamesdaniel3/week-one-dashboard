@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
 import Home from "./routes/Home";
+import Calendar from "./routes/Calendar";
+import Directory from "./routes/Directory";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/",
+        element: <Calendar />,
+    },
+    {
+        path: "/",
+        element: <Directory />,
     },
 ]);
 
