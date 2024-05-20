@@ -1,35 +1,27 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { CourseCard } from './components/CourseCard'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  var course = {
+    "color": "blue",
+    "route": "",
+    "title":"Calculus II",
+    "category":"MATH",
+    "id": "2140",
+    "enrollment": 0,
+    "enrollment_cap": 100,
+    "image":"src/assets/testimg.jpg",
+    "avg_grade":86.0,
+    "desc":"Calculus II is an exploration of deeper and more advanced mathematics. Students in this course will learn everything ranging from simple derivation to much more advanced integration methods.",
+  }
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CourseCard course={course}/>
     </>
-  )
+  );
 }
 
 export default App
