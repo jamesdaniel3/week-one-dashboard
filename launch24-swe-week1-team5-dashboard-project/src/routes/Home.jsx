@@ -11,6 +11,7 @@ const Main = () => {
 
     useEffect(() => {
         const getCourses = async () => {
+            console.log('trying')
             const coursesList = await fetchCourses();
             setCourses(coursesList);
         };
@@ -20,7 +21,7 @@ const Main = () => {
     return (
         <>
             <div className="main-home">
-                <NavBar />
+                <NavBar/>
                 <div className="dash-body">
                     <div className="dash-header">
                         <h1>Good Morning, NAME!</h1>
