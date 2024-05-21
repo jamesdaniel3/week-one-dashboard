@@ -1,81 +1,50 @@
-import '../styles/CourseCard.css'
+import React from 'react';
+import CircularProgress from './CircularProgress';
+import '../styles/CourseCard.css';
 
+const calculateLetterGrade = (averageGrade) => {
+  if (averageGrade >= 90) return 'A';
+  if (averageGrade >= 80) return 'B';
+  if (averageGrade >= 70) return 'C';
+  if (averageGrade >= 60) return 'D';
+  return 'F';
+};
 
-export const CourseCard = ({course=null, courseid=null}) => {
-    if (course != null) {
-
-        var course_grade = "good"; // defualt course grade status
-        //set course grade color
-        if (course.avg_grade >= 85) {
-            course_grade = "good"
-        }
-        else if (course.avg_grade >= 70) {
-            course_grade = "medium"
-        }
-        else {
-            course_grade = "poor"
-        }
-
-        return (
-            <>
-                <a href={course.route} className={"course-card " + course.color}>
-                    <div className='title'>
-                    <h1>
-                        {course.title}
-                    </h1>
-                    </div>
-                    <p className='description' maxlength='50'>
-                        {course.desc}
-                    </p>
-                    <div className="course-card-footer">
-                        <div className={'grade-overview '+course_grade}>
-                            <span> {course.avg_grade}% </span>
-                        </div>
-                    </div>
-                </a>
-            </>
-        )
-        // else if (course.avg_grade >= 70) {
-        //     return (
-        //         <>
-        //             <div className={"course-card " + course.color}>
-        //                 <div className='title'>
-        //                 <h1>
-        //                     {course.title}
-        //                 </h1>
-        //                 </div>
-        //                 <p className='description' maxlength='50'>
-        //                     {course.desc}
-        //                 </p>
-        //                 <div className="course-card-footer">
-        //                     <div className='grade-overview medium'>
-        //                         <span> {course.avg_grade}% </span>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </>
-        //     )
-        // }
-        // else {
-        //     return (
-        //         <>
-        //             <div className={"course-card " + course.color}>
-        //                 <div className='title'>
-        //                 <h1>
-        //                     {course.title}
-        //                 </h1>
-        //                 </div>
-        //                 <p className='description' maxlength='50'>
-        //                     {course.desc}
-        //                 </p>
-        //                 <div className="course-card-footer">
-        //                     <div className='grade-overview poor'>
-        //                         <span> {course.avg_grade}% </span>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </>
-        //     )
-        // }
+export const CourseCard = ({ course = null, courseId = null, showProgress = false }) => {
+  if (course != null) {
+    var course_grade = "good"; // default course grade status
+    // set course grade color
+    if (course.avg_grade >= 85) {
+      course_grade = "good";
+    } else if (course.avg_grade >= 70) {
+      course_grade = "medium";
+    } else {
+      course_grade = "poor";
     }
-}
+
+    const letterGrade = calculateLetterGrade(course.avg_grade);
+
+    return (
+      <div className="course-card-container">
+        <a id={`course-card-${courseId}`} href={course.route} className={"course-card " + course.color}>
+          <div className='title'>
+            <h1>{course.title}</h1>
+          </div>
+          <p className='description' maxLength='50'>
+            {course.desc}
+          </p>
+          <div className="course-card-footer">
+            <div className={'grade-overview ' + course_grade}>
+              <span> {course.avg_grade}% </span>
+            </div>
+            {showProgress && (
+              <CircularProgress percentage={course.avg_grade} letterGrade={letterGrade} />
+            )}
+          </div>
+        </a>
+      </div>
+    );
+  }
+};
+
+export default CourseCard;

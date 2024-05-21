@@ -1,0 +1,8 @@
+.course-list {
+    display: flex;
+    flex-direction: row;
+    gap: 100px; 
+    justify-content: left;
+    align-items: center;
+  }
+  
