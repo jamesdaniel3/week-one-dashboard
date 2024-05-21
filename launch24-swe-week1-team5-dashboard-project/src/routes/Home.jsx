@@ -2,7 +2,7 @@ import NavBar from "../components/Navbar.jsx";
 import { CourseCard } from '../components/CourseCard'
 const Main = () => {
     var course = {
-        "color": "blue",
+        "color": "pink",
         "route": "",
         "title":"Calculus II",
         "category":"MATH",
@@ -10,7 +10,7 @@ const Main = () => {
         "enrollment": 0,
         "enrollment_cap": 100,
         "image":"src/assets/testimg.jpg",
-        "avg_grade":86.0,
+        "avg_grade":100.0,
         "desc":"Calculus II is an exploration of deeper and more advanced mathematics. Students in this course will learn everything ranging from simple derivation to much more advanced integration methods.",
     }
     return (
