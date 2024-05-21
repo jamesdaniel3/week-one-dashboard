@@ -1,0 +1,21 @@
+.even{
+    background-color: lightgrey;
+}
+
+.odd{
+    background-color: white;
+    display:flex;
+}
+
+.DirContainer{
+    max-width: 1400px;
+}
+
+.remove{
+    border-radius:10px;
+    background-color: lightcoral;
+}
+
+.remove:hover{
+    background-color: red;
+}

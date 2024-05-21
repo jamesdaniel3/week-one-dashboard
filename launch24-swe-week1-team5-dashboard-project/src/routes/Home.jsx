@@ -1,24 +1,39 @@
+// Main.jsx
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/Navbar.jsx";
-import { CourseCard } from '../components/CourseCard'
+import { CourseCard } from '../components/CourseCard';
+import "../styles/Dashboard.css";
+import "../styles/Home.css";
+import fetchCourses from "../utils/fetchCourses";
+
 const Main = () => {
-    var course = {
-        "color": "pink",
-        "route": "",
-        "title":"Calculus II",
-        "category":"MATH",
-        "id": "2140",
-        "enrollment": 0,
-        "enrollment_cap": 100,
-        "image":"src/assets/testimg.jpg",
-        "avg_grade":100.0,
-        "desc":"Calculus II is an exploration of deeper and more advanced mathematics. Students in this course will learn everything ranging from simple derivation to much more advanced integration methods.",
-    }
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const getCourses = async () => {
+            const coursesList = await fetchCourses();
+            setCourses(coursesList);
+        };
+        getCourses();
+    }, []);
+
     return (
         <>
-            <NavBar />
-            <CourseCard course={course}/>
+            <div className="main-home">
+                <NavBar />
+                <div className="dash-body">
+                    <div className="dash-header">
+                        <h1>Good Morning, NAME!</h1>
+                    </div>
+                    <div className="courses-row">
+                        {courses.map(course => (
+                            <CourseCard key={course.id} course={course} />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </>
-    )
+    );
 };
 
 export default Main;
