@@ -29,13 +29,50 @@
   }
 
   .pink {
-    --main-bg-color: #FADF7F;
-    --main-accent-color:  #F6CE3C;
+    --main-bg-color: #F4A4A6;
+    --main-accent-color:  #F07F83;
+    --text-color: #F6F5F3;
   }
 
   .blue {
     --main-bg-color: #B7BFCC;
     --main-accent-color:  #8895AA;
+    --text-color: #F6F5F3;
+  }
+
+  .darkblue {
+    --main-bg-color: #2C4263;
+    --main-accent-color:  #253855;
+    --text-color: #F6F5F3;
+  }
+
+  .darkred {
+    --main-bg-color: #871E1C;
+    --main-accent-color:  #661615;
+    --text-color: #F6F5F3;
+  }
+
+  .red {
+    --main-bg-color: #FE675D;
+    --main-accent-color:  #FE4134;
+    --text-color: #F6F5F3;
+  }
+
+  .orange {
+    --main-bg-color: #FF8E47;
+    --main-accent-color:  #FF751F;
+    --text-color: #F6F5F3;
+  }
+
+  .faintgreen {
+    --main-bg-color: #89A995;
+    --main-accent-color:  #71987F;
+    --text-color: #F6F5F3;
+  }
+
+  .green {
+    --main-bg-color: #72AC89;
+    --main-accent-color:  #538D6A;
     --text-color: #F6F5F3;
   }
 
