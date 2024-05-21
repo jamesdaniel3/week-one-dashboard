@@ -1,5 +1,8 @@
 import NavBar from "../components/Navbar.jsx";
 import { CourseCard } from '../components/CourseCard'
+import "../styles/Dashboard.css";
+import "../styles/Home.css";
+
 const Main = () => {
     var course = {
         "color": "pink",
@@ -15,8 +18,17 @@ const Main = () => {
     }
     return (
         <>
-            <NavBar />
-            <CourseCard course={course}/>
+            <div className="main-home">
+                <NavBar />
+                <div className="dash-body">
+                    <div className="dash-header">
+                        <h1>Good Morning, NAME!</h1>
+                    </div>
+                    <div className="courses-row">
+                        <CourseCard course={course}/>
+                    </div>
+                </div>
+            </div>
         </>
     )
 };
