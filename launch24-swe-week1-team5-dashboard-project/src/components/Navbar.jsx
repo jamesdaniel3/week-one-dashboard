@@ -23,7 +23,7 @@ export default function NavBar() {
 
     const hideNav = () => {
         console.log("HIDING");
-        if (hidden == '') {
+        if (hidden === '') {
             setHidden('hidden');
         }
         else {

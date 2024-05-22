@@ -96,12 +96,14 @@ const EventModal = ({ isOpen, onRequestClose, onSave, selectedDate }) => {
                         </div>
                     </>
                 )}
-                <button type="button" onClick={handleSave} style={{ marginRight: '10px' }}>
-                    Create Event
-                </button>
-                <button type="button" onClick={onRequestClose}>
-                    Cancel
-                </button>
+                <div>
+                    <button type="button" onClick={handleSave} style={{ marginRight: '10px' }}>
+                        Create Event
+                    </button>
+                    <button type="button" onClick={onRequestClose}>
+                        Cancel
+                    </button>
+                </div>
             </form>
         </Modal>
     );

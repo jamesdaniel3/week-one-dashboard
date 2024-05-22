@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -23,7 +23,7 @@ const customStyles = {
     },
 };
 
-const EditEventModal = ({ isOpen, onRequestClose, event, onSave, onDelete }) => {
+const EditEventModal = ({ isOpen, onRequestClose, event, onDelete }) => {
 
     const handleDelete = () => {
         onDelete(event.id);
