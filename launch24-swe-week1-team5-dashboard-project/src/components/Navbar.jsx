@@ -1,10 +1,13 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 import '../styles/Navbar.css';
 import React, { useEffect, useState } from "react";
+import {auth} from "../firebase.js";
 
 
 export default function NavBar() {
     const [hidden, setHidden] = useState('');
+    const navigate = useNavigate();
 
     const hideNav = () => {
         console.log("HIDING");
@@ -14,6 +17,23 @@ export default function NavBar() {
         else {
             setHidden('');
         }
+    }
+
+    const logout = () => {
+        console.log("signing out...")
+        signOut(auth)
+        .then(() => {navigate('/')})
+    }
+
+    if(auth) {
+        auth.onAuthStateChanged(function(user) {
+            if(user) {
+                console.log('user logged in');
+            }
+            else {
+                logout();
+            }
+        })
     }
 
     return (
@@ -44,6 +64,11 @@ export default function NavBar() {
                     </Link>
                     <div className="navbar-highlights">
 
+                    </div>
+                    <div className="navbar-link logout" onClick={logout}>
+                        <span>
+                            Logout
+                        </span>
                     </div>
                 </div>
             </>
