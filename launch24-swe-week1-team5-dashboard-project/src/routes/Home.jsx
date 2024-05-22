@@ -6,7 +6,9 @@ import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
 import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
-import {auth, db} from '../firebase.js';
+import {Link} from "react-router-dom";
+import {auth} from '../firebase.js';
+import {db} from '../firebase.js';
 
 const Main = () => {
     const [courses, setCourses] = useState([]);
