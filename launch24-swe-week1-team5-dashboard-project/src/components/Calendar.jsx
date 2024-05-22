@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
+// calendar
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+// modals
 import EventModal from './CreateEventModal';
 import EditEventModal from './EditEventModal';
+// firebase
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import '../styles/Calendar.css';
+// functions
 import fetchEvents from "../utils/fetchEvents";
+import filterRecentEvents from "../utils/filterRecentEvents.js";
+// style
+import '../styles/Calendar.css';
+import sortEvents from "../utils/filterRecentEvents.js";
 
 export default function Calendar() {
     const [events, setEvents] = useState([]);
