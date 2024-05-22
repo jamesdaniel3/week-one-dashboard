@@ -4,6 +4,7 @@ import fetchStudents from "../utils/fetchStudents";
 
 
 import "../styles/Dashboard.css";
+import DirectoryTable from "../components/DirectoryTable.jsx";
 
 // const students = await fetchStudents();
 // console.log(students);
@@ -40,6 +41,18 @@ const Main = () => (
     //     </div>
     // </>
     <>
+        <div className="main-home">
+            <NavBar/>
+            <div className="dash-body">
+                <div className="dash-header">
+                    <h1> Directory </h1>
+                </div>
+                <div className="directory-body">
+                    <DirectoryTable/>
+                </div>
+                
+            </div>
+        </div>
     </>
 );
 
