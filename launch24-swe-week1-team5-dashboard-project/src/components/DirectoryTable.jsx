@@ -15,6 +15,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
+import { Icon } from '@mui/material';
 
 function createData(name, email, id, number, birthday, address) {
   return {
@@ -37,6 +38,7 @@ function Row(props) {
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
+
           <IconButton
             aria-label="expand row"
             size="small"
@@ -44,6 +46,7 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
+
         </TableCell>
         <TableCell component="th" scope="row">
           {row.name}
