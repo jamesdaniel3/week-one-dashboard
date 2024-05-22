@@ -10,21 +10,6 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 import '../styles/Calendar.css';
 import fetchEvents from "../utils/fetchEvents";
 
-/*
- Event Object Format:
- {
-    title: 'Event Title',
-    allDay: false,
-    start: '<YEAR>-<MONTH>-<DAY><TIMEZONE><HOUR>:<MINUTE>:<SECOND>',
-    end: '<YEAR>-<MONTH>-<DAY><TIMEZONE><HOUR>:<MINUTE>:<SECOND>'
- }
-  {
-    title: 'Event Title',
-    allDay: true,
-    date: '<YEAR>-<MONTH>-<DAY>'
- }
- */
-
 export default function Calendar() {
     const [events, setEvents] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
