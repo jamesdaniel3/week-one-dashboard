@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root'); // Set the root element for accessibility
@@ -28,6 +28,14 @@ const EventModal = ({ isOpen, onRequestClose, onSave, selectedDate }) => {
     const [allDay, setAllDay] = useState(false);
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
+
+    useEffect(() => {
+        if (selectedDate) {
+            const dateStr = selectedDate.toISOString().split('T')[0];
+            setStart(`${dateStr}T00:00`);
+            setEnd(`${dateStr}T01:00`);
+        }
+    }, [selectedDate]);
 
     const handleSave = () => {
         const event = allDay
@@ -68,20 +76,20 @@ const EventModal = ({ isOpen, onRequestClose, onSave, selectedDate }) => {
                 {!allDay && (
                     <>
                         <div>
-                            <label>Start:</label>
+                            <label>Start Time:</label>
                             <input
-                                type="datetime-local"
-                                value={start}
-                                onChange={(e) => setStart(e.target.value)}
+                                type="time"
+                                value={start.split('T')[1]}
+                                onChange={(e) => setStart(`${start.split('T')[0]}T${e.target.value}`)}
                                 style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
                             />
                         </div>
                         <div>
-                            <label>End:</label>
+                            <label>End Time:</label>
                             <input
-                                type="datetime-local"
-                                value={end}
-                                onChange={(e) => setEnd(e.target.value)}
+                                type="time"
+                                value={end.split('T')[1]}
+                                onChange={(e) => setEnd(`${end.split('T')[0]}T${e.target.value}`)}
                                 style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
                             />
                         </div>

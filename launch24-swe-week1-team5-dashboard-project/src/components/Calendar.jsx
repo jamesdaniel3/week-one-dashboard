@@ -3,8 +3,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import EventModal from './CreateEventModal.jsx';
-import { db } from '../firebase.js';
+import EventModal from './CreateEventModal';
+import { db } from '../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import '../styles/Calendar.css';
 
