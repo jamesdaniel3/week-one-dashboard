@@ -1,3 +1,5 @@
+@import url(ColorPalette.css);
+
 .assignmentsContainter{
     max-width: 1400px;
 }
@@ -56,4 +58,103 @@
     font-weight: bold;
     font-size: xx-large;
     margin-right: 10px;
+}
+
+/*  */
+
+.directory-body {
+    display: flex;
+    padding: 38px;
+}
+
+.directory-column {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.directory-row {
+    background-color: var(--white2);
+    /* border: 2px solid var(--white3); */
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.legend {
+    height: 60px;
+    border-bottom: 2px solid var(--white5);
+    background-color: var(--white1);
+}
+
+.legend .field {
+    width: 20%;
+    font-size: 24px;
+    font-family: 'Lora';
+    font-weight: 800;
+    text-align: left !important;
+}
+
+.odd {
+    background-color: var(--white3) !important;
+}
+
+.directory-row span {
+    display: flex;
+    align-items: center;
+    width: 20%;
+}
+
+.directory-row-name {
+    height: auto;
+    width: 200px;
+    color: var(--black2);
+    font-family: 'Lora';
+    font-weight: 800;
+    text-align: center;
+}
+
+@media only screen and (max-width: 2100px) {
+
+    .phone {
+        visibility: hidden;
+        width: 0px !important;
+    }
+
+    .name {
+        width: 25% !important;
+    }
+    .status {
+        width: 25% !important;
+    }
+    .address {
+        width: 25% !important;
+    }
+    .email {
+        width: 25% !important;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+
+    .phone {
+        visibility: hidden;
+        width: 0px !important;
+    }
+
+    .name {
+        width: 33% !important;
+    }
+    .status {
+        width: 33% !important;
+    }
+    .address {
+        width: 0px !important;
+        visibility: hidden;
+    }
+    .email {
+        width: 33% !important;
+    }
 }

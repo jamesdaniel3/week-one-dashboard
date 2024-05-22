@@ -1,7 +1,7 @@
 @import url(ColorPalette.css);
 
 body {
-    background-color: var(--white1);
+    background-color: var(--white1) !important;
     margin: 0px;
 }
 
