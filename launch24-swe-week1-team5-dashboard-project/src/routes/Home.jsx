@@ -45,7 +45,7 @@ const Main = () => {
                 <NavBar/>
                 <div className="dash-body">
                     <div className="dash-header">
-                        <h1>Good Morning {}</h1>
+                        <h1>Home</h1>
                     </div>
                     <div className="courses-row">
                         {courses.map(course => (
@@ -56,7 +56,6 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            <Link to={"/Course"}>Course dummy Link</Link>
         </>
 );
 };

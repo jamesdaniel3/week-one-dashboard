@@ -19,6 +19,21 @@
     transition: 0.2s;
     grid-column-start: auto;
     justify-self: center;
+    color: var(--text-color);
+  }
+
+  /* Remove ugly lines from cards from link */
+  a:link { 
+    text-decoration: none; 
+  } 
+  a:visited { 
+    text-decoration: none; 
+  } 
+  a:hover { 
+    text-decoration: none; 
+  } 
+  a:active { 
+    text-decoration: none; 
   }
 
   .yellow {
@@ -77,11 +92,6 @@
     --main-bg-color: #72AC89;
     --main-accent-color:  #538D6A;
     --text-color: #F6F5F3;
-  }
-
-  .course-card {
-    text-decoration: none;
-    color: var(--text-color);
   }
 
 .course-card:hover {

@@ -16,7 +16,7 @@
         z-index: 5 !important;
         /* visibility: hidden; */
     }
-    .hide-button {
+    .hide-button img{
         visibility: visible !important;
         position: fixed !important;
     }
@@ -36,13 +36,13 @@ button.hide-button {
     scale: 50%;
 }
 
-button img {
+button.hide-button img {
     margin-left: 18px;
     transform: rotateZ(-45deg);
     transition: 0.2s;
 }
 
-button img.hidden {
+button.hide-button img.hidden {
     transform: rotateZ(135deg);
     pointer-events: all;
 }
