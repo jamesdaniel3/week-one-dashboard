@@ -8,6 +8,7 @@ import EditEventModal from './EditEventModal';
 import { db } from '../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import '../styles/Calendar.css';
+import fetchEvents from "../utils/fetchEvents";
 
 /*
  Event Object Format:
@@ -32,13 +33,11 @@ export default function Calendar() {
     const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
-        const fetchEvents = async () => {
-            const querySnapshot = await getDocs(collection(db, 'events'));
-            const eventsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setEvents(eventsData);
+        const getEvents = async () => {
+            const eventsList = await fetchEvents();
+            setEvents(eventsList);
         };
-
-        fetchEvents();
+        getEvents();
     }, []);
 
     const handleDateClick = (info) => {
