@@ -15,6 +15,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
+
 function createData(name, email, id, number, birthday, address) {
   return {
     name,
@@ -27,9 +28,11 @@ function createData(name, email, id, number, birthday, address) {
     },
   };
 }
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -78,6 +81,7 @@ function Row(props) {
     </React.Fragment>
   );
 }
+
 Row.propTypes = {
   row: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -90,10 +94,12 @@ Row.propTypes = {
     }).isRequired,
   }).isRequired,
 };
+
 const rows = [
   createData('Alice', 'alice@jefferson.edu', 1, '1111111111', 'Jan 1, 2016', '111 Idk Street, Some City, CA, 11111'),
   createData('Bob', 'bob@jefferson.edu', 2, '2222222222', 'Dec 31, 2016', '111 Idk Street, Some City, CA, 11111'),
 ];
+
 export default function DirectoryTable() {
   return (
     <TableContainer component={Paper}>
