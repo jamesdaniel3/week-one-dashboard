@@ -1,39 +1,69 @@
-// Main.jsx
 import React, { useEffect, useState } from "react";
+import {doc, collection, getDocs, getDoc} from "firebase/firestore";
 import NavBar from "../components/Navbar.jsx";
 import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
 import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
+import {Link} from "react-router-dom";
+import {auth} from '../firebase.js';
+import {db} from '../firebase.js';
 
 const Main = () => {
     const [courses, setCourses] = useState([]);
+    const [userData, setUser] = useState('null')
+    const [userDetails, setDetails] = useState('null');
+    const [coursesGot, setCoursesGot] = useState(false);
 
-    useEffect(() => {
-        const getCourses = async () => {
-            const coursesList = await fetchCourses();
+    if(auth) {
+        auth.onAuthStateChanged(function(user) {
+            if(user) {
+                setUser(user);
+                getCourses();
+            }
+            else {
+                console.log('failed');
+            }
+        })
+    }
+
+    const getCourses = async () => {
+        if(userData.email && !coursesGot) {
+            console.log('user is authenticated, getting courses for:',userData.email);
+            const coursesList = await fetchCourses(userData.email);
             setCourses(coursesList);
-        };
-        getCourses();
-    }, []);
+            setCoursesGot(true);
+        }
+        else {
+            console.log("user not loaded");
+        }
+    }
 
     return (
         <>
             <div className="main-home">
-                <NavBar />
+                <NavBar/>
                 <div className="dash-body">
                     <div className="dash-header">
-                        <h1>Good Morning, NAME!</h1>
+                        <h1>Good Morning {}</h1>
                     </div>
                     <div className="courses-row">
                         {courses.map(course => (
-                            <CourseCard key={course.id} course={course} />
-                        ))}
+                            <Link key={course.id} to={`/course/${course.id}`}>
+                                <CourseCard course={course} />
+                            </Link>
+                                ))}
                     </div>
                 </div>
             </div>
+            <Link to={"/Course"}>Course dummy Link</Link>
         </>
-    );
+);
 };
 
 export default Main;
+
+
+
+
+

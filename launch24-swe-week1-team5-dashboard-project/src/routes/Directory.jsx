@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from "../components/Navbar.jsx";
 import '../styles/Directory.css';
 import DirectoryTable from '../components/DirectoryTable.jsx';
@@ -30,14 +28,49 @@ const StudentList = () => {
 
     // Function to remove students including the database
 
+const Main = () => {
     return (
         <>
-            <div>
-                <NavBar />
-                <DirectoryTable />
+            <NavBar />
+            <div className = "DirContainer">
+                <div className = "row">
+                    <div className = "col-sm-3">
+                        Fake Nav Bar
+                    </div>
+
+                    <div className = "col-sm-9">
+    
+                        <h1>Directory</h1>
+                        <br></br>
+                        <h2>Students</h2>
+
+                        <div className="row">
+                            <div className="col-sm-2"><strong>Name</strong></div>
+                            <div className="col-sm-1"><strong>Exam 1</strong></div>
+                            <div className="col-sm-1"><strong>Exam 2</strong></div>
+                            <div className="col-sm-1"><strong>Exam 3</strong></div>
+                            <div className="col-sm-2"><strong>Final Exam</strong></div>
+                            <div className="col-sm-2"><strong>Overall Grade</strong></div>
+                        </div>
+
+                        {students.map((student,index) => (
+                            <div key={student.id} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                <div className="col-sm-2">{student.name}</div>
+                                <div className="col-sm-1">{student.exam1}</div>
+                                <div className="col-sm-1">{student.exam2}</div>
+                                <div className="col-sm-1">{student.exam3}</div>
+                                <div className="col-sm-2">{student.finalExam}</div>
+                                <div className="col-sm-2">{student.overallGrade}</div>
+                                <div className="col-sm-2">
+                                    <button className = "remove"> Remove Student</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </>
     );
 };
 
-export default StudentList;
+export default Main;
