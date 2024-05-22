@@ -32,8 +32,10 @@ const StudentList = () => {
 
     return (
         <>
-            <NavBar />
-            <DirectoryTable />
+            <div>
+                <NavBar />
+                <DirectoryTable />
+            </div>
         </>
     );
 };
