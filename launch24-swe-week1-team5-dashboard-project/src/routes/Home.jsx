@@ -4,6 +4,7 @@ import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
 import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
+import {Link} from "react-router-dom";
 import {auth} from '../firebase.js';
 
 const Main = () => {
@@ -33,8 +34,9 @@ const Main = () => {
                     </div>
                 </div>
             </div>
+            <Link to={"/Course"}>Course dummy Link</Link>
         </>
-    );
+);
 };
 
 export default Main;
