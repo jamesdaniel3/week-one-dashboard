@@ -28,7 +28,7 @@
 
 }
 
-button {
+button.hide-button {
     position: fixed;
     top: 50%;
     z-index: 10;
