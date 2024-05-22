@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root'); // Set the root element for accessibility
+Modal.setAppElement('#root');
+
+/*TODO:
+    - prevent users from using conflicting times (start must be after end)
+    - allow users to select date after clicking on a date?
+    - style modal
+ */
 
 const customStyles = {
     content: {
@@ -15,11 +21,11 @@ const customStyles = {
         padding: '20px',
         borderRadius: '10px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 1000, // Ensure the modal is on top
+        zIndex: 1000,
     },
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 999, // Ensure the overlay is below the modal but above the calendar
+        zIndex: 999,
     },
 };
 
@@ -96,7 +102,7 @@ const EventModal = ({ isOpen, onRequestClose, onSave, selectedDate }) => {
                     </>
                 )}
                 <button type="button" onClick={handleSave} style={{ marginRight: '10px' }}>
-                    Commit
+                    Create Event
                 </button>
                 <button type="button" onClick={onRequestClose}>
                     Cancel
