@@ -106,3 +106,7 @@ button img.hidden {
     margin-bottom: 38px;
     border-radius: 16px;
 }
+
+.logout {
+    border-top: 2px solid var(--lgreen4);
+}

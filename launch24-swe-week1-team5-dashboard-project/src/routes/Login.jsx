@@ -13,6 +13,22 @@ const Login = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
+    // check if user is logged in and auto-populate
+    useEffect(() => {
+        if(auth) {
+            auth.onAuthStateChanged(function(user) {
+                if(user) {
+                    console.log('user logged in');
+                    setUsername(user.email)
+                }
+                else {
+                    console.log('user is not logged in');
+                }
+            })
+        }
+    }, [])
+
+
     const handleChangePass = (event) => {
         const value = event.target.value;
         setPassword(value);
@@ -29,9 +45,7 @@ const Login = () => {
         .then(() => console.log("SUCCESS"))
         .then(() => navigate('/home'))
         .catch((e) => console.log(e));
-        // navigate('/home')
     }
-
     return (
         <>
             <div className='login-body'>

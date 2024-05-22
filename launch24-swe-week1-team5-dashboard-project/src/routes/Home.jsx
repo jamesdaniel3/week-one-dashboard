@@ -1,23 +1,42 @@
 // Main.jsx
 import React, { useEffect, useState } from "react";
+import {doc, collection, getDocs, getDoc} from "firebase/firestore";
 import NavBar from "../components/Navbar.jsx";
 import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
 import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
-import {auth} from '../firebase.js';
+import {auth, db} from '../firebase.js';
 
 const Main = () => {
     const [courses, setCourses] = useState([]);
+    const [userData, setUser] = useState('null')
+    const [userDetails, setDetails] = useState('null');
+    const [coursesGot, setCoursesGot] = useState(false);
 
-    useEffect(() => {
-        const getCourses = async () => {
-            console.log('trying')
-            const coursesList = await fetchCourses();
+    if(auth) {
+        auth.onAuthStateChanged(function(user) {
+            if(user) {
+                setUser(user);
+                getCourses();
+            }
+            else {
+                console.log('failed');
+            }
+        })
+    }
+
+    const getCourses = async () => {
+        if(userData.email && !coursesGot) {
+            console.log('user is authenticated, getting courses for:',userData.email);
+            const coursesList = await fetchCourses(userData.email);
             setCourses(coursesList);
-        };
-        getCourses();
-    }, []);
+            setCoursesGot(true);
+        }
+        else {
+            console.log("user not loaded");
+        }
+    }
 
     return (
         <>
@@ -25,7 +44,7 @@ const Main = () => {
                 <NavBar/>
                 <div className="dash-body">
                     <div className="dash-header">
-                        <h1>Good Morning, {auth.currentUser.email}</h1>
+                        <h1>Good Morning {}</h1>
                     </div>
                     <div className="courses-row">
                         {courses.map(course => (
