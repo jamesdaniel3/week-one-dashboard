@@ -1,5 +1,5 @@
 import React from 'react';
-import './CircularProgress.css';
+import '../styles/CircularProgress.css';
 
 const CircularProgress = ({ percentage, letterGrade }) => {
   const circleStyle = {

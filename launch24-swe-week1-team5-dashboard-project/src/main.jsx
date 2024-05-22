@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
 import Home from "./routes/Home";
-import Calendar from "./routes/Calendar";
+import Calendar from "./routes/CalendarPage.jsx";
 import Directory from "./routes/Directory";
 import Course from "./routes/Course.jsx";
 import Login from "./routes/Login.jsx";

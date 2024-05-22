@@ -4,7 +4,6 @@ const Main = () => {
     return (
         <>
             <NavBar/>
-            <p>This is the calendar page</p>
         </>
     )
 };
