@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
 import fetchCourses from "../utils/fetchCourses";
 import fetchStudents from "../utils/fetchStudents";
 
+const averageScore = 90;
 
+const calculateLetterGrade = (average) => {
+    if (average >= 90) return 'A';
+    if (average >= 80) return 'B';
+    if (average >= 70) return 'C';
+    if (average >= 60) return 'D';
+    return 'F';
+  };
+
+const letterGrade = calculateLetterGrade(averageScore);
 
 const Main = () => {
 
@@ -31,7 +42,7 @@ const Main = () => {
     //add assignmnets
 
     //edit student grades for each assignment
-
+    const courseTitle = "AP Calculus";
     return (
         <>
             <div className = "DirContainer">
@@ -39,9 +50,13 @@ const Main = () => {
                     <div className = "col-sm-3">
                     <NavBar />
                     </div>
-
-                    <div className = "col-sm-9">
                     
+                    <div className = "col-sm-9">
+                    <div className="course-banner d-flex justify-content-between align-items-center">
+                        <h1>{courseTitle}</h1>
+                        <CircularProgress percentage={averageScore} letterGrade={letterGrade} />
+
+                    </div>
                                 <center><div className = "Roster" >Roster</div></center>
 
                                 <div className = "SecondHeader"><span className = "Students">Students</span> <button className = "add">Add Student</button></div>

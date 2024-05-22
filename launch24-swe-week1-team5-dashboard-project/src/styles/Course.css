@@ -57,3 +57,13 @@
     font-size: xx-large;
     margin-right: 10px;
 }
+.course-banner {
+    background-color: #f4a4a6; /* Pink background */
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px; /* Optional for rounded corners */
+    margin-bottom: 20px; /* Space below the banner */
+}
