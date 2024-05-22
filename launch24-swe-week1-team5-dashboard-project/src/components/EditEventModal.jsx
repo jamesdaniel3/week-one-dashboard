@@ -24,25 +24,6 @@ const customStyles = {
 };
 
 const EditEventModal = ({ isOpen, onRequestClose, event, onSave, onDelete }) => {
-    const [title, setTitle] = useState('');
-    const [allDay, setAllDay] = useState(false);
-    const [start, setStart] = useState('');
-    const [end, setEnd] = useState('');
-
-    useEffect(() => {
-        if (event) {
-            setTitle(event.title);
-            setAllDay(event.allDay);
-            setStart(event.start instanceof Date ? event.start.toISOString() : event.start || '');
-            setEnd(event.end instanceof Date ? event.end.toISOString() : event.end || '');
-        }
-    }, [event]);
-
-    const handleSave = () => {
-        const updatedEvent = { ...event, title, allDay, start, end };
-        onSave(updatedEvent);
-        onRequestClose();
-    };
 
     const handleDelete = () => {
         onDelete(event.id);
@@ -56,62 +37,16 @@ const EditEventModal = ({ isOpen, onRequestClose, event, onSave, onDelete }) => 
             contentLabel="Edit Event"
             style={customStyles}
         >
-            <h2>Edit Event</h2>
+            <h2>Delete Event?</h2>
             <form>
-                <div>
-                    <label>Title:</label>
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                    />
-                </div>
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={allDay}
-                            onChange={(e) => {
-                                setAllDay(e.target.checked);
-                                if (e.target.checked) {
-                                    setStart('');
-                                    setEnd('');
-                                }
-                            }}
-                        />
-                        All Day
-                    </label>
-                </div>
-                {!allDay && (
-                    <>
-                        <div>
-                            <label>Start Time:</label>
-                            <input
-                                type="time"
-                                value={start ? start.split('T')[1] : ''}
-                                onChange={(e) => setStart(`${start.split('T')[0]}T${e.target.value}`)}
-                                style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                            />
-                        </div>
-                        <div>
-                            <label>End Time:</label>
-                            <input
-                                type="time"
-                                value={end ? end.split('T')[1] : ''}
-                                onChange={(e) => setEnd(`${end.split('T')[0]}T${e.target.value}`)}
-                                style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                            />
-                        </div>
-                    </>
-                )}
-                <button type="button" onClick={handleSave} style={{ marginRight: '10px' }}>
-                    Save Changes
-                </button>
                 <button type="button" onClick={handleDelete} style={{ backgroundColor: 'red' }}>
                     Delete Event
                 </button>
-                <button type="button" onClick={onRequestClose}>
+                <button
+                    type="button"
+                    onClick={onRequestClose}
+                    style={{ padding: '10px 20px', cursor: 'pointer' }}
+                >
                     Cancel
                 </button>
             </form>
