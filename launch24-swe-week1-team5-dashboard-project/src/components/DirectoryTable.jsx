@@ -14,22 +14,16 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function createData(id, name, email, number, birthday, address) {
+function createData(name, email, id, number, birthday, address) {
   return {
     name,
-    email, 
-    number,
-    info: [
-      {
-        id: id, 
-      },
-      {
-        birthday: birthday,
-      },
-      {
-        address: address,
-      },
-    ],
+    email,
+    id,
+    info: {
+      number,
+      birthday,
+      address,
+    },
   };
 }
 
@@ -53,7 +47,7 @@ function Row(props) {
           {row.name}
         </TableCell>
         <TableCell align="right">{row.email}</TableCell>
-        <TableCell align="right">{row.number}</TableCell>
+        <TableCell align="right">{row.id}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -63,18 +57,19 @@ function Row(props) {
                 Student Information
               </Typography>
               <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                  </TableRow>
-                </TableHead>
                 <TableBody>
-                  {row.info.map((infoRow) => (
-                    <TableRow key={infoRow.id}>
-                      <TableCell component="th" scope="row">{infoRow.id}</TableCell>
-                      <TableCell>{infoRow.birthday}</TableCell>
-                      <TableCell>{infoRow.address}</TableCell>
-                    </TableRow>
-                  ))}
+                  <TableRow>
+                    <TableCell component="th" scope="row">Number</TableCell>
+                    <TableCell>{row.info.number}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">Birthday</TableCell>
+                    <TableCell>{row.info.birthday}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">Address</TableCell>
+                    <TableCell>{row.info.address}</TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -87,40 +82,21 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired,
-    info: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    birthday: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
+    info: PropTypes.shape({
+      number: PropTypes.string.isRequired,
+      birthday: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
 const rows = [
-  createData(1, 'Alice', 'alice@jefferson.edu', 1111111111, 'Jan 1, 2016', '111 Idk Street, Some City, CA, 11111'),
-  createData(2, 'Bob', 'Bob@jefferson.edu', 2222222222, 'Dec 31, 2016', '111 Idk Street, Some City, CA, 11111'),
-]
-//         { id: 1, name: 'Alice', exam1: 85, exam2: 90, exam3: 78, finalExam: 88, overallGrade: 85.25 },
-//         { id: 2, name: 'Bob', exam1: 75, exam2: 80, exam3: 70, finalExam: 82, overallGrade: 76.75 },
-//         { id: 3, name: 'Charlie', exam1: 95, exam2: 85, exam3: 92, finalExam: 91, overallGrade: 90.75 },
-//         { id: 4, name: 'Sammy Smith', exam1: 88, exam2: 92, exam3: 85, finalExam: 90, overallGrade: 88.75 },
-//         { id: 5, name: 'Jamie Joe', exam1: 82, exam2: 79, exam3: 88, finalExam: 85, overallGrade: 83.5 },
-//         { id: 6, name: 'John Smith', exam1: 90, exam2: 85, exam3: 87, finalExam: 89, overallGrade: 87.75 },
-//         { id: 7, name: 'Jane Doe', exam1: 78, exam2: 82, exam3: 80, finalExam: 84, overallGrade: 81 },
-//         { id: 8, name: 'Josh Jameson', exam1: 93, exam2: 88, exam3: 90, finalExam: 95, overallGrade: 91.5 },
-//         { id: 9, name: 'Daniel Smith', exam1: 85, exam2: 90, exam3: 88, finalExam: 92, overallGrade: 88.75 },
-//         { id: 10, name: 'Julia Roberts', exam1: 89, exam2: 85, exam3: 90, finalExam: 88, overallGrade: 88 },
-//         { id: 11, name: 'Justice Truth', exam1: 80, exam2: 83, exam3: 85, finalExam: 87, overallGrade: 83.75 },
-//         { id: 12, name: 'Hunter Fisher', exam1: 92, exam2: 88, exam3: 85, finalExam: 90, overallGrade: 88.75 },
-//         { id: 13, name: 'Frankie Barns', exam1: 78, exam2: 82, exam3: 80, finalExam: 84, overallGrade: 81 },
-//         { id: 14, name: 'Johnny Appleseed', exam1: 85, exam2: 90, exam3: 92, finalExam: 91, overallGrade: 89.5 },
-//         { id: 15, name: 'Jimmy Joe', exam1: 82, exam2: 88, exam3: 85, finalExam: 89, overallGrade: 86 },
-//         { id: 16, name: 'Billy Bob', exam1: 90, exam2: 85, exam3: 87, finalExam: 89, overallGrade: 87.75 },
-// ];
+  createData('Alice', 'alice@jefferson.edu', 1, '1111111111', 'Jan 1, 2016', '111 Idk Street, Some City, CA, 11111'),
+  createData('Bob', 'bob@jefferson.edu', 2, '2222222222', 'Dec 31, 2016', '111 Idk Street, Some City, CA, 11111'),
+];
 
 export default function DirectoryTable() {
   return (
@@ -129,14 +105,14 @@ export default function DirectoryTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Student</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Number</TableCell>
+            <TableCell align="right">ID</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <Row key={row.id} row={row} />
           ))}
         </TableBody>
       </Table>
