@@ -12,10 +12,10 @@ import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 // functions
 import fetchEvents from "../utils/fetchEvents";
-import filterRecentEvents from "../utils/filterRecentEvents.js";
+import sortEvents from "../utils/filterRecentEvents.js";
 // style
 import '../styles/Calendar.css';
-import sortEvents from "../utils/filterRecentEvents.js";
+
 
 export default function Calendar() {
     const [events, setEvents] = useState([]);
