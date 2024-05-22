@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import '../styles/Calendar.css'
 
 export default function Calendar() {
     const [events, setEvents] = useState([
@@ -22,7 +23,7 @@ export default function Calendar() {
     };
 
     return (
-        <div>
+        <div className="Calendar">
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
