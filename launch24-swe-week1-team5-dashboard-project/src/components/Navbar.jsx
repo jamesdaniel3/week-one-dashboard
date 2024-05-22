@@ -1,29 +1,9 @@
 import {Link} from "react-router-dom";
 import '../styles/Navbar.css';
 import fetchEvents from "../utils/fetchEvents";
+import sortEvents from "../utils/filterRecentEvents"
 import {useEffect, useState} from "react";
 import * as events from "events";
-
-function sortEvents(events){
-    events.sort((a, b) => {
-        let dateA, dateB;
-        if (a.start) {
-            dateA = new Date(a.start.split('T')[0]);
-        } else if (a.date) {
-            dateA = new Date(a.date);
-        }
-
-        if (b.start) {
-            dateB = new Date(b.start.split('T')[0]);
-        } else if (b.date) {
-            dateB = new Date(b.date);
-        }
-
-        return dateA - dateB;
-    });
-
-    return events.slice(0, 5);
-}
 
 export default function NavBar(){
     const [recentEvents, setRecentEvents] = useState([]);
@@ -35,7 +15,6 @@ export default function NavBar(){
             setRecentEvents(sortedEvents);
         };
         getEvents();
-        console.log(recentEvents)
     }, []);
 
     return (
@@ -59,6 +38,26 @@ export default function NavBar(){
                             Directory
                         </span></Link>
                     <div className="navbar-highlights">
+                        <h4>Upcoming Events</h4>
+                        <div className="navbar-highlights">
+                            <ul>
+                                {recentEvents.map((event, index) => {
+                                    let eventDate;
+                                    if (event.date) {
+                                        eventDate = new Date(event.date);
+                                    } else if (event.start) {
+                                        eventDate = new Date(event.start.split('T')[0]);
+                                    }
+
+                                    return (
+                                        <li key={index}>
+                                            <span>{event.title}, {event.name}</span>
+                                            <span>{eventDate ? eventDate.toDateString() : ''}</span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
 
                     </div>
                 </div>

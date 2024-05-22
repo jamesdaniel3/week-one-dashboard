@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import EventModal from './CreateEventModal';
 import EditEventModal from './EditEventModal';
 import { db } from '../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import '../styles/Calendar.css';
 import fetchEvents from "../utils/fetchEvents";
 
