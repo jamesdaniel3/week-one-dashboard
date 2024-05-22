@@ -16,6 +16,8 @@
     margin: none;
     padding: none;
     transition: 0.2s;
+    grid-column-start: auto;
+    justify-self: center;
   }
 
   .yellow {
@@ -87,6 +89,7 @@
   }
 
   .title {
+    margin-top: 12px;
     display: flex;
     flex-direction: row;
   }
@@ -94,6 +97,7 @@
   h1 {
     margin-left: 16px;
     font-size: 28px;
+    font-family: "Lora";
   }
 
   .description {

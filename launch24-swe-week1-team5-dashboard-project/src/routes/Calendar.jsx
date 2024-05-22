@@ -3,7 +3,7 @@ import NavBar from "../components/Navbar.jsx";
 const Main = () => {
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <p>This is the calendar page</p>
         </>
     )

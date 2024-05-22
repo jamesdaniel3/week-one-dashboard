@@ -5,10 +5,20 @@ import Home from "./routes/Home";
 import Calendar from "./routes/Calendar";
 import Directory from "./routes/Directory";
 import Course from "./routes/Course.jsx";
+import Login from "./routes/Login.jsx";
+import CreateAccount from "./routes/CreateAccount.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
+        element: <Login />,
+    },
+    {
+        path: "/create-account",
+        element: <CreateAccount />,
+    },
+    {
+        path: "/home",
         element: <Home />,
     },
     {
