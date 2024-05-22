@@ -11,7 +11,7 @@ import EditEventModal from './EditEventModal';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 // functions
-import fetchEvents from "../utils/fetchEvents";
+import fetchEvents from "../utils/fetchEvents.js";
 import sortEvents from "../utils/filterRecentEvents.js";
 // style
 import '../styles/Calendar.css';

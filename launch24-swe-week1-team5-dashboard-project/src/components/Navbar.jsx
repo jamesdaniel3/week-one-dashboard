@@ -3,7 +3,7 @@ import { getAuth, signOut } from "firebase/auth";
 import '../styles/Navbar.css';
 import React, { useEffect, useState } from "react";
 import {auth} from "../firebase.js";
-import fetchEvents from "../utils/fetchEvents";
+import fetchEvents from "../utils/fetchEvents.js";
 import sortEvents from "../utils/filterRecentEvents"
 
 
