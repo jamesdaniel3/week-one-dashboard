@@ -30,7 +30,8 @@ const Main = () => {
     return (
         <>
             <NavBar />
-            <div className = "DirContainer">
+            <DirectoryTable />
+            {/* <div className = "DirContainer">
                 <div className = "row">
                     <div className = "col-sm-3">
                         Fake Nav Bar
@@ -66,7 +67,7 @@ const Main = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };

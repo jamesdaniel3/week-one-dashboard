@@ -102,7 +102,7 @@ const rows = [
 
 export default function DirectoryTable() {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
