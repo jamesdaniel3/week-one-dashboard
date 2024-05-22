@@ -50,7 +50,7 @@ export default function NavBar() {
 
     return (
             <>
-                <button>
+                <button className="hide-button">
                     <img src="src\assets\edge.png" className={"hide-button "+hidden} onClick={hideNav}/>
                 </button>
                 <div className={"main "+hidden}>

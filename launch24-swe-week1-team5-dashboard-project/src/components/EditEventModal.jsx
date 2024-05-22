@@ -39,13 +39,13 @@ const EditEventModal = ({ isOpen, onRequestClose, event, onDelete }) => {
         >
             <h2>Delete Event?</h2>
             <form>
-                <button type="button" onClick={handleDelete} style={{ backgroundColor: 'red' }}>
+                <button type="button" className="name" onClick={handleDelete} style={{ backgroundColor: 'red' }}>
                     Delete Event
                 </button>
                 <button
                     type="button"
                     onClick={onRequestClose}
-                    style={{ padding: '10px 20px', cursor: 'pointer' }}
+                    style={{ padding: '10px 20px', cursor: 'pointer', zIndex: 1002}}
                 >
                     Cancel
                 </button>
