@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root');
+Modal.setAppElement('#root'); // Set the root element for accessibility
 
 const customStyles = {
     content: {
@@ -15,11 +15,11 @@ const customStyles = {
         padding: '20px',
         borderRadius: '10px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 1000,
+        zIndex: 1000, // Ensure the modal is on top
     },
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 999,
+        zIndex: 999, // Ensure the overlay is below the modal but above the calendar
     },
 };
 
@@ -32,7 +32,7 @@ const EventModal = ({ isOpen, onRequestClose, onSave, selectedDate }) => {
     const handleSave = () => {
         const event = allDay
             ? { title, allDay, date: selectedDate.toISOString().split('T')[0] }
-            : { title, allDay, start: new Date(`${start}`).toISOString(), end: new Date(`${end}`).toISOString() };
+            : { title, allDay, start: new Date(start).toISOString(), end: new Date(end).toISOString() };
         onSave(event);
         onRequestClose();
     };

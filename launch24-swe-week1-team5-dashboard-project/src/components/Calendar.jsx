@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import EventModal from './CreateEventModal';
+import EventModal from './CreateEventModal.jsx';
+import { db } from '../firebase.js';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 import '../styles/Calendar.css';
 
 /*
@@ -22,20 +24,32 @@ import '../styles/Calendar.css';
  */
 
 export default function Calendar() {
-    const [events, setEvents] = useState([
-        { title: 'Event 1', allDay: false, start: '2024-05-21T14:30:00', end: '2024-05-21T17:30:00' },
-        { title: 'Event 2', allDay: true, date: '2024-05-22' }
-    ]);
+    const [events, setEvents] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            const querySnapshot = await getDocs(collection(db, 'events'));
+            const eventsData = querySnapshot.docs.map(doc => doc.data());
+            setEvents(eventsData);
+        };
+
+        fetchEvents();
+    }, []);
 
     const handleDateClick = (info) => {
         setSelectedDate(info.date);
         setModalOpen(true);
     };
 
-    const handleSaveEvent = (event) => {
-        setEvents((prevEvents) => [...prevEvents, event]);
+    const handleSaveEvent = async (event) => {
+        try {
+            await addDoc(collection(db, 'events'), event);
+            setEvents((prevEvents) => [...prevEvents, event]);
+        } catch (error) {
+            console.error('Error adding document: ', error);
+        }
     };
 
     return (
