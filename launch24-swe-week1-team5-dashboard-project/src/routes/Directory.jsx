@@ -2,8 +2,6 @@ import NavBar from "../components/Navbar.jsx";
 import '../styles/Directory.css';
 import DirectoryTable from '../components/DirectoryTable.jsx';
 
-
-const StudentList = () => {
     // State to store the list of students
     // const [students, setStudents] = useState([
     //     { id: 1, name: 'Alice', exam1: 85, exam2: 90, exam3: 78, finalExam: 88, overallGrade: 85.25 },
