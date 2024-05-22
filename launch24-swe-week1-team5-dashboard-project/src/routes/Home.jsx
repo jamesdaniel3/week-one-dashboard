@@ -4,6 +4,7 @@ import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
 import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
+import {auth} from '../firebase.js';
 
 const Main = () => {
     const [courses, setCourses] = useState([]);
@@ -23,7 +24,7 @@ const Main = () => {
                 <NavBar/>
                 <div className="dash-body">
                     <div className="dash-header">
-                        <h1>Good Morning, NAME!</h1>
+                        <h1>Good Morning, {auth.currentUser.email}</h1>
                     </div>
                     <div className="courses-row">
                         {courses.map(course => (
