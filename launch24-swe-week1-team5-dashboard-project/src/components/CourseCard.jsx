@@ -24,27 +24,24 @@ export const CourseCard = ({ course = null, courseId = null, showProgress = fals
 
     const letterGrade = calculateLetterGrade(course.avg_grade);
 
-    return (
-      <div className="course-card-container">
-        <a id={`course-card-${courseId}`} href={course.route} className={"course-card " + course.color}>
-          <div className='title'>
-            <h1>{course.title}</h1>
-          </div>
-          <p className='description' maxLength='50'>
-            {course.desc}
-          </p>
-          <div className="course-card-footer">
-            <div className={'grade-overview ' + course_grade}>
-              <span> {course.avg_grade}% </span>
-            </div>
-            {showProgress && (
-              <CircularProgress percentage={course.avg_grade} letterGrade={letterGrade} />
-            )}
-          </div>
-        </a>
-      </div>
-    );
-  }
-};
-
-export default CourseCard;
+        return (
+            <>
+                <a href={course.route} className={"course-card " + course.color}>
+                    <div className='title'>
+                        <h1>
+                        {course.title}
+                        </h1>
+                    </div>
+                    <p className='description'>
+                        {course.desc}
+                    </p>
+                    <div className="course-card-footer">
+                        <div className={'grade-overview '+course_grade}>
+                            <span> {course.avg_grade}% </span>
+                        </div>
+                    </div>
+                </a>
+            </>
+        )
+    }
+}
