@@ -3,7 +3,6 @@ import '../styles/Navbar.css';
 import fetchEvents from "../utils/fetchEvents";
 import sortEvents from "../utils/filterRecentEvents"
 import {useEffect, useState} from "react";
-import * as events from "events";
 
 export default function NavBar(){
     const [recentEvents, setRecentEvents] = useState([]);
