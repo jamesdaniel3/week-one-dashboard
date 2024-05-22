@@ -29,8 +29,10 @@ const Main = () => {
                     </div>
                     <div className="courses-row">
                         {courses.map(course => (
-                            <CourseCard key={course.id} course={course} />
-                        ))}
+                            <Link key={course.id} to={`/course/${course.id}`}>
+                                <CourseCard course={course} />
+                            </Link>
+                                ))}
                     </div>
                 </div>
             </div>

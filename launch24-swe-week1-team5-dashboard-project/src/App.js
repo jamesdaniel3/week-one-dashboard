@@ -29,7 +29,9 @@ const App = () => {
     <div className="App">
       <CircularProgress percentage={averageGrade} letterGrade={letterGrade} />
     </div>
+    
   );
+  
 };
 
 export default App;
