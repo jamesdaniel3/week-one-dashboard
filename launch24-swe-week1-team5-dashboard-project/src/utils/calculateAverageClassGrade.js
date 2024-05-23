@@ -9,7 +9,7 @@ function calculateLetterGrade(average) {
     return 'F';
 }
 
-function calculateAverageClassGrade(studentGrades, courseId){
+async function calculateAverageClassGrade(studentGrades, courseId){
     let count = 0;
     let sum = 0;
     for(const student in studentGrades){
@@ -18,10 +18,15 @@ function calculateAverageClassGrade(studentGrades, courseId){
     }
 
     const average = sum/count;
+    const letterGrade = calculateLetterGrade(average);
 
-    // update avg.grade based on courseID HERE
+    // update avg.grade based on courseId
+    const courseDocRef = doc(db, "courses", courseId);
+    await updateDoc(courseDocRef, {
+        avg_grade: average
+    });
 
-    return [average, calculateLetterGrade(average)];
+    return [average, letterGrade];
 }
 
 export default calculateAverageClassGrade;
