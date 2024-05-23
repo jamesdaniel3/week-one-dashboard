@@ -5,6 +5,9 @@ import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
 import fetchCourses from "../utils/fetchCourses";
 import fetchStudents from "../utils/fetchStudents";
+import {useParams} from "react-router-dom";
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import { db } from "../firebase";
 
 const averageScore = 90;
 
@@ -20,20 +23,46 @@ const letterGrade = calculateLetterGrade(averageScore);
 
 const Main = () => {
 
+    const { courseId } = useParams(); // Extract course ID from URL
+    const [course, setCourse] = useState(null);
     const [students, setStudents] = useState([]);
-    const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const coursesList = await fetchCourses();
-            setCourses(coursesList);
+        const fetchCourse = async (courseId) => {
+            const courseDocRef = doc(db, "courses", courseId);
+            const courseDocSnap = await getDoc(courseDocRef);
 
-            const studentsList = await fetchStudents();
-            setStudents(studentsList);
+            if (!courseDocSnap.exists()) {
+                console.log("No such course!");
+                return;
+            }
+
+            const courseData = courseDocSnap.data();
+            const studentIds = courseData.students;
+
+            let studentNames = [];
+
+            for (const studentId of studentIds) {
+                const studentDocRef = doc(db, "students", studentId);
+                const studentDocSnap = await getDoc(studentDocRef);
+
+                if (studentDocSnap.exists()) {
+                    studentNames.push(studentDocSnap.data().name);
+                } else {
+                    console.log(`No such student with ID: ${studentId}`);
+                }
+            }
+            setStudents(studentNames);
 
         };
-        fetchData();
-    }, []);
+
+        fetchCourse(courseId);
+    }, [courseId]);
+
+    // console.log("HERE")
+    // console.log(students)
+    // console.log(course)
+
 
     //remove student from the class
     //add students to the class
