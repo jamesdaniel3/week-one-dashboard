@@ -1,6 +1,4 @@
 import NavBar from "../components/Navbar.jsx";
-import DirectoryRow from "../components/DirectoryRow.jsx";
-import fetchStudents from "../utils/fetchStudents";
 import "../styles/Dashboard.css";
 import DirectoryTable from "../components/DirectoryTable.jsx";
 

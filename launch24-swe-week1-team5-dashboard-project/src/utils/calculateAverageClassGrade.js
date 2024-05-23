@@ -1,4 +1,4 @@
-import {collection, doc, updateDoc} from "firebase/firestore";
+import {doc, updateDoc} from "firebase/firestore";
 import {db} from "../firebase";
 
 function calculateLetterGrade(average) {
