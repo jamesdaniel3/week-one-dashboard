@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import fetchStudents from "../utils/fetchStudents";
+import {TextField} from "@mui/material";
 
 function Row(props) {
   const { row } = props;
@@ -91,6 +92,7 @@ Row.propTypes = {
 
 export default function DirectoryTable() {
   const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,31 +102,49 @@ export default function DirectoryTable() {
     fetchData();
   }, []);
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  const filteredStudents = students.filter(student =>
+      student.name.toLowerCase().includes(searchTerm) ||
+      student.student_number.includes(searchTerm)
+  );
+
   return (
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Student Number</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {students.map((student) => (
-                <Row key={student.id} row={{
-                  number: student.student_number,
-                  name: student.name,
-                  email: student.email,
-                  info: {
-                    birthday: student.birthday,
-                    address: student.address,
-                  }
-                }} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <>
+        <TextField
+            label="Search by Name or Student Number"
+            variant="outlined"
+            fullWidth
+            onChange={handleSearchChange}
+            style={{ marginBottom: '20px' }}
+        />
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Email</TableCell>
+                <TableCell align="right">Student Number</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredStudents.map((student) => (
+                  <Row key={student.id} row={{
+                    number: student.student_number,
+                    name: student.name,
+                    email: student.email,
+                    info: {
+                      birthday: student.birthday,
+                      address: student.address,
+                    }
+                  }} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
   );
 }

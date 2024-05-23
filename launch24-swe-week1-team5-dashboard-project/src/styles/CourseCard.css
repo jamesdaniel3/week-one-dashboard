@@ -20,6 +20,8 @@
     grid-column-start: auto;
     justify-self: center;
     color: var(--text-color);
+    text-decoration: none; 
+
   }
 
   /* Remove ugly lines from cards from link */
@@ -221,4 +223,16 @@
   --main-bg-color: #72AC89;
   --main-accent-color:  #538D6A;
   --text-color: #F6F5F3;
+}
+
+.plus {
+  background-color: var(--white2);
+  align-items: center;
+  justify-content: center;
+}
+
+.plus .icon {
+  height: auto;
+  width: auto;
+  scale: 200%;
 }
