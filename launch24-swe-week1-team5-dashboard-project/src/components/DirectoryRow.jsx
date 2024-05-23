@@ -11,18 +11,18 @@ export default function DirectoryRow({index, entry=null}) {
         return (
             <>
                 <div className={"directory-row "+odd}>
-                        <span className='directory-row-name name'>
-                            {entry.name}
-                        </span>
-                        <span className='directory-row-name phone'>
-                            {entry.phone_number}
-                        </span>
-                        <span className='directory-row-name address'>
-                            {entry.address}
-                        </span>
-                        <span className='directory-row-name email'>
-                            {entry.email}
-                        </span>
+                    <span className='directory-row-name name'>
+                        {entry.name}
+                    </span>
+                    <span className='directory-row-name phone'>
+                        {entry.phone_number}
+                    </span>
+                    <span className='directory-row-name address'>
+                        {entry.address}
+                    </span>
+                    <span className='directory-row-name email'>
+                        {entry.email}
+                    </span>
                 </div>
             </>
         )
