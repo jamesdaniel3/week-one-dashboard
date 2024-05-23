@@ -72,19 +72,29 @@
 }
 
 .login-button {
-    width: 220px;
-    height: 80px;
+    margin-top: 38px;
+    width: 110px;
+    height: 40px;
     border-radius: 50px;
-    border: 5px solid var(--dgreen1);
+    border: 3px solid var(--dgreen1);
     color: var(--white1);
     background-color: var(--dgreen1);
     visibility: visible;
     position: relative;
-    font-size: 28px;
+    font-size: 15px;
     transition: 0.3s;
     font-family: "Radio Canada Big";
 }
 
 .login-button:hover {
     background-color: var(--lgreen4);
+}
+
+.error-message {
+    margin-top: 28px;
+    font-weight: 800;
+    color: #a22725;
+    width: 100%;
+    font-family: "Lora";
+    text-align: center
 }

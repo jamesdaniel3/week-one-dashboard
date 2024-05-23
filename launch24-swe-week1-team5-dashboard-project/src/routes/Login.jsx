@@ -10,6 +10,7 @@ const Login = () => {
     const [email, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     // check if user is logged in and auto-populate
@@ -43,7 +44,23 @@ const Login = () => {
         .then((userCredential) => setUser(userCredential.user))
         .then(() => console.log("SUCCESS"))
         .then(() => navigate('/home'))
-        .catch((e) => console.log(e));
+        .catch((e) => {
+            if(e.code == "auth/invalid-email") {
+                console.log("EMAIL WRONG");
+                setErrorMessage("Email Invalid")
+            }
+            if(e.code == 'auth/missing-password') {
+                console.log("ENTER A VALID PASSWORD");
+                setErrorMessage("Enter a Password")
+            }
+            if(e.code =='auth/invalid-credential') {
+                console.log("USER NOT FOUND");
+                setErrorMessage("User not Found.")
+            }
+            else {
+                console.log(e);
+            }
+        });
     }
     return (
         <>
@@ -61,6 +78,7 @@ const Login = () => {
                     <div className='login-option'>
                         <button className='login-button' onClick={login}> LOGIN </button>
                     </div>
+                    <span className='error-message'> { errorMessage } </span>
                 </div>
             </div>
         </>
