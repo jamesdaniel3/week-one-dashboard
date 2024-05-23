@@ -31,7 +31,10 @@ const Main = () => {
     useEffect(() => {
         const getTableInfo = async () => {
             const infoList = await fetchTableInfo(courseId);
-            console.log(infoList);
+            const [courseData, studentsData, gradesByStudentData] = infoList;
+            setCourse(courseData);
+            setStudents(studentsData);
+            setGradesByStudent(gradesByStudentData);
         }
         getTableInfo();
     }, [courseId]);
