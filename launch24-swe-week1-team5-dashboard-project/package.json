@@ -12,14 +12,18 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@fullcalendar/core": "^6.1.13",
     "@fullcalendar/daygrid": "^6.1.13",
     "@fullcalendar/react": "^6.1.13",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "bootstrap": "^5.3.3",
     "firebase": "^10.12.1",
+    "fullcalendar": "^6.1.13",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-native-modal-dropdown": "^1.0.2",
     "react-responsive": "^10.0.0",
     "react-router-dom": "^6.23.1"
