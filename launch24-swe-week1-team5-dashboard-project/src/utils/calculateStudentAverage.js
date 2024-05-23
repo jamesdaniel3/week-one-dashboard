@@ -11,8 +11,7 @@ function calculateWeightedAverageGrades(gradesByStudent, course){
             totalWeights += weight;
         });
 
-        const averageGrade = totalWeights > 0 ? totalWeightedGrades / totalWeights : 0;
-        weightedAverages[studentName] = averageGrade;
+        weightedAverages[studentName] = totalWeights > 0 ? totalWeightedGrades / totalWeights : 0;
     });
 
     return weightedAverages;

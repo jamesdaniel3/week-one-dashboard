@@ -5,31 +5,34 @@ import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
 import fetchTableInfo from "../utils/fetchTableInfo";
 import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
+import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
 import { useParams } from "react-router-dom";
 
 const Main = () => {
-    const { courseId } = useParams(); // Extract course ID from URL
+    const { courseId } = useParams();
     const [course, setCourse] = useState(null);
     const [gradesByStudent, setGradesByStudent] = useState({});
     const [studentFinalGrades, setStudentFinalGrades] = useState({});
+    const [classAverage, setClassAverage] = useState(0);
+    const [classGrade, setClassGrade] = useState('F');
 
     useEffect(() => {
         const getTableInfo = async () => {
             const infoList = await fetchTableInfo(courseId);
-            const [courseData, , gradesByStudentData] = infoList; // Skipping studentsData as it's not directly used
+            const [courseData, , gradesByStudentData] = infoList;
             setCourse(courseData);
             setGradesByStudent(gradesByStudentData);
+            const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
+            setStudentFinalGrades(finalGrades);
+            const [average, grade] = calculateAverageClassGrade(studentFinalGrades);
+            setClassAverage(average);
+            setClassGrade(grade);
         }
         getTableInfo();
     }, [courseId]);
+    //not sure if this will update when the addStudent button is called, something to keep an eye on
 
-    const averageScore = 90; // Placeholder for actual logic to calculate average score
-    const letterGrade = calculateLetterGrade(averageScore);
-    useEffect(() => {
-        setStudentFinalGrades(calculateWeightedAverageGrades(gradesByStudent, course));
-    }, [gradesByStudent]);
-
-
+    console.log(classAverage, classGrade) //logs 0 'F'
     return (
         <>
             <div className="DirContainer">
@@ -40,16 +43,16 @@ const Main = () => {
                     <div className="col-sm-9">
                         <div className="course-banner d-flex justify-content-between align-items-center">
                             <h1>{course?.title || "Loading course..."}</h1>
-                            <CircularProgress percentage={averageScore} letterGrade={letterGrade} />
+                            <CircularProgress percentage={classAverage} letterGrade={classGrade} />
                         </div>
                         <center><div className="Roster">Roster</div></center>
-                        <div className="SecondHeader"><span className="Students">Students</span> <button className="add">Add Student</button></div>
-                        <div className="col-sm-6"></div>
+                        <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
                         <div className="row">
                             <div className="col-sm-2"><strong>Name</strong></div>
                             {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
                                 <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
                             ))}
+                            <div className="col-sm-2"><strong>Final Grade</strong></div> {/* Add Final Grade column header */}
                         </div>
                         {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
                             <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
@@ -57,6 +60,7 @@ const Main = () => {
                                 {Object.values(grades).map((grade, gradeIndex) => (
                                     <div key={gradeIndex} className="col-sm-2">{grade}</div>
                                 ))}
+                                <div className="col-sm-2">{studentFinalGrades[studentName]}</div> {/* Display the final grade */}
                             </div>
                         ))}
                     </div>
@@ -65,13 +69,5 @@ const Main = () => {
         </>
     );
 };
-
-function calculateLetterGrade(average) {
-    if (average >= 90) return 'A';
-    if (average >= 80) return 'B';
-    if (average >= 70) return 'C';
-    if (average >= 60) return 'D';
-    return 'F';
-}
 
 export default Main;
