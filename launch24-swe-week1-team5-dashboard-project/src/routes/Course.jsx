@@ -19,6 +19,15 @@ const Main = () => {
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
 
+    // a note about the add student button
+        // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
+        // With that number, you should check if there exists a student who has that number whose id (not student id) is not in the students section of the course
+            // note that the course info  can be accessed with the courseID field
+        // If you don't find a student to add, just close the modal
+        // If you do find a student to add, you will also have to create a document in the grades collection
+            // If we make it so that grades can be updated just take all the assignments from the assignments field in class and assign all the grades as 0
+            // If we don't make it so grades can be updated I'm not sure how feasible this is
+
 
     useEffect(() => {
         const getTableInfo = async () => {
