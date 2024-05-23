@@ -1,95 +1,88 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Button} from 'react-bootstrap';
 import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
-import fetchCourses from "../utils/fetchCourses";
-import fetchStudents from "../utils/fetchStudents";
-
-const averageScore = 90;
-
-const calculateLetterGrade = (average) => {
-    if (average >= 90) return 'A';
-    if (average >= 80) return 'B';
-    if (average >= 70) return 'C';
-    if (average >= 60) return 'D';
-    return 'F';
-  };
-
-const letterGrade = calculateLetterGrade(averageScore);
+import fetchTableInfo from "../utils/fetchTableInfo";
+import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
+import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
+import AddProfessorModal from "../components/AddProfessorModal.jsx";
+import { useParams } from "react-router-dom";
 
 const Main = () => {
+    const { courseId } = useParams();
+    const [course, setCourse] = useState(null);
+    const [gradesByStudent, setGradesByStudent] = useState({});
+    const [studentFinalGrades, setStudentFinalGrades] = useState({});
+    const [classAverage, setClassAverage] = useState(0);
+    const [classGrade, setClassGrade] = useState('F');
+    const [showModal, setShowModal] = useState(false);
 
-    const [students, setStudents] = useState([]);
-    const [courses, setCourses] = useState([]);
+    // a note about the add student button
+        // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
+        // With that number, you should check if there exists a student who has that number whose id (not student id) is not in the students section of the course
+            // note that the course info  can be accessed with the courseID field
+        // If you don't find a student to add, just close the modal
+        // If you do find a student to add, you will also have to create a document in the grades collection
+            // If we make it so that grades can be updated just take all the assignments from the assignments field in class and assign all the grades as 0
+            // If we don't make it so grades can be updated I'm not sure how feasible this is
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            const coursesList = await fetchCourses();
-            setCourses(coursesList);
+        const getTableInfo = async () => {
+            const infoList = await fetchTableInfo(courseId);
+            const [courseData, , gradesByStudentData] = infoList;
+            setCourse(courseData);
+            setGradesByStudent(gradesByStudentData);
+            const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
+            setStudentFinalGrades(finalGrades);
+            const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
+            setClassAverage(average);
+            setClassGrade(grade);
+        }
+        getTableInfo();
+    }, [courseId]);
 
-            const studentsList = await fetchStudents();
-            setStudents(studentsList);
+    const handleCloseModal = () => setShowModal(false);
 
-        };
-        fetchData();
-    }, []);
-
-    //remove student from the class
-    //add students to the class
-
-    //remove assignments
-    //add assignmnets
-
-    //edit student grades for each assignment
-    const courseTitle = "AP Calculus";
     return (
         <>
-            <div className = "DirContainer">
-                <div className = "row">
-                    <div className = "col-sm-3">
-                    <NavBar />
-                    </div>
-                    
-                    <div className = "col-sm-9">
-                    <div className="course-banner d-flex justify-content-between align-items-center">
-                        <h1>{courseTitle}</h1>
-                        <CircularProgress percentage={averageScore} letterGrade={letterGrade} />
-
-                    </div>
-                                <center><div className = "Roster" >Roster</div></center>
-
-                                <div className = "SecondHeader"><span className = "Students">Students</span> <button className = "add">Add Student</button></div>
-
-                                <div className = "col-sm-6"></div>
-                                
-                                <div className="row">
-                                    <div className="col-sm-2"><strong>Name</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 1</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 2</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 3</strong></div>
-                                    <div className="col-sm-2"><strong>Final Exam</strong></div>
-                                    <div className="col-sm-2"><strong>Overall Grade</strong></div>
-                                </div>
-
-                                {students.map((student,index) => (
-                                    <div key={student.id} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                        <div className="col-sm-2">{student.Name}</div>
-                                        <div className="col-sm-1">{student.Calculus.Exam1}</div>
-                                        <div className="col-sm-1">{student.Calculus.Exam2}</div>
-                                        <div className="col-sm-1">{student.Calculus.Exam3}</div>
-                                        <div className="col-sm-2">{student.Calculus.Exam4}</div>
-                                        <div className="col-sm-2">
-                                            {((student.Calculus.Exam1 + student.Calculus.Exam2 + student.Calculus.Exam3 + student.Calculus.Exam4) / 4).toFixed(2)}
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <button className = "remove"> Remove Student</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+            <div className="DirContainer">
+                <div className="DirContainer">
+                    <div className="row">
+                        <div className="col-sm-3">
+                            <NavBar />
                         </div>
+                        <div className="col-sm-9">
+                            <div className="course-banner d-flex justify-content-between align-items-center">
+                                <h1>{course?.title || "Loading course..."}</h1>
+                                <CircularProgress percentage={classAverage} letterGrade={classGrade} />
+                                <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
+                            </div>
+                            <center><div className="Roster">Roster</div></center>
+                            <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
+                            <div className="row">
+                                <div className="col-sm-2"><strong>Name</strong></div>
+                                {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
+                                    <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
+                                ))}
+                                <div className="col-sm-2"><strong>Final Grade</strong></div>
+                            </div>
+                            {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
+                                <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                    <div className="col-sm-2">{studentName}</div>
+                                    {Object.values(grades).map((grade, gradeIndex) => (
+                                        <div key={gradeIndex} className="col-sm-2">{grade}</div>
+                                    ))}
+                                    <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
+            <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
         </>
     );
 };

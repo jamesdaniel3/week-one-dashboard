@@ -1,5 +1,4 @@
 import React from 'react';
-import CircularProgress from './CircularProgress';
 import '../styles/CourseCard.css';
 
 const calculateLetterGrade = (averageGrade) => {

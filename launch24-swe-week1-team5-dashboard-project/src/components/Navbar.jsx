@@ -1,5 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import '../styles/Navbar.css';
 import React, { useEffect, useState } from "react";
 import {auth} from "../firebase.js";

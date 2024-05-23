@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -13,81 +13,72 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { Icon } from '@mui/material';
-
-function createData(name, email, id, number, birthday, address) {
-  return {
-    name,
-    email,
-    id,
-    info: {
-      number,
-      birthday,
-      address,
-    },
-  };
-}
+import fetchStudents from "../utils/fetchStudents";
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
+  const [year, month, day] = row.info.birthday.split('-').map(num => parseInt(num, 10));
+  const birthdayDate = new Date(year, month - 1, day);
+
+  //format the date
+  const formattedBirthday = birthdayDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+      <React.Fragment>
+        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+          <TableCell>
 
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+            <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
 
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="right">{row.email}</TableCell>
-        <TableCell align="right">{row.id}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Student Information
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableBody>
-                  <TableRow>
-                    <TableCell component="th" scope="row">Number</TableCell>
-                    <TableCell>{row.info.number}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell component="th" scope="row">Birthday</TableCell>
-                    <TableCell>{row.info.birthday}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell component="th" scope="row">Address</TableCell>
-                    <TableCell>{row.info.address}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
+          </TableCell>
+          <TableCell component="th" scope="row">
+            {row.name}
+          </TableCell>
+          <TableCell align="right">{row.email}</TableCell>
+          <TableCell align="right">{row.number}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Student Information
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row">Birthday</TableCell>
+                      <TableCell>{formattedBirthday}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row">Address</TableCell>
+                      <TableCell>{row.info.address}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
   );
 }
 
 Row.propTypes = {
   row: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     info: PropTypes.shape({
@@ -98,29 +89,42 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData('Alice', 'alice@jefferson.edu', 1, '1111111111', 'Jan 1, 2016', '111 Idk Street, Some City, CA, 11111'),
-  createData('Bob', 'bob@jefferson.edu', 2, '2222222222', 'Dec 31, 2016', '111 Idk Street, Some City, CA, 11111'),
-];
-
 export default function DirectoryTable() {
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchStudents();
+      setStudents(data);
+    };
+    fetchData();
+  }, []);
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">ID</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.id} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Student Number</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+                <Row key={student.id} row={{
+                  number: student.student_number,
+                  name: student.name,
+                  email: student.email,
+                  info: {
+                    birthday: student.birthday,
+                    address: student.address,
+                  }
+                }} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
   );
 }
