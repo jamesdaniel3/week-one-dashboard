@@ -36,7 +36,7 @@ export const CourseCard = ({ course = null, courseId = null, showProgress = fals
                     </p>
                     <div className="course-card-footer">
                         <div className={'grade-overview '+course_grade}>
-                            <span> {course.avg_grade}% </span>
+                            <span> {Math.round(course.avg_grade, 2)}% </span>
                         </div>
                     </div>
                 </a>

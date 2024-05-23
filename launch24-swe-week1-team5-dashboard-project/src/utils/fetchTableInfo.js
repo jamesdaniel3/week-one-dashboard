@@ -15,6 +15,7 @@ const fetchTableInfo = async (courseId) => {
     addObjectIfUnique(courseData);
     await createStudentMap(courseData.students);
     await createGradeMap(courseId)
+    console.log('data:',data);
     return data
 
 };
