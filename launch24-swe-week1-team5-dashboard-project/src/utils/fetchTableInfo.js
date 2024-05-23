@@ -56,7 +56,6 @@ const createGradeMap = async (courseId) => {
         gradesMap[studentNamesById[studentId]] = studentGrades;
     }
 
-    // Add the gradesMap to the data array
     addObjectIfUnique(gradesMap);
 }
 
