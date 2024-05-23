@@ -32,7 +32,6 @@ const Main = () => {
     }, [courseId]);
     //not sure if this will update when the addStudent button is called, something to keep an eye on
 
-    console.log(classAverage, classGrade) //logs 0 'F'
     return (
         <>
             <div className="DirContainer">
