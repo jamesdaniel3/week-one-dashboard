@@ -40,24 +40,33 @@ const Main = () => {
             const courseData = courseDocSnap.data();
             const studentIds = courseData.students;
 
-            let studentNames = [];
+            // Initialize an empty object for student names keyed by their IDs
+            let studentNamesById = {};
 
             for (const studentId of studentIds) {
                 const studentDocRef = doc(db, "students", studentId);
                 const studentDocSnap = await getDoc(studentDocRef);
 
                 if (studentDocSnap.exists()) {
-                    studentNames.push(studentDocSnap.data().name);
+                    // Assign the student's name to their ID in the object
+                    studentNamesById[studentId] = studentDocSnap.data().name;
                 } else {
                     console.log(`No such student with ID: ${studentId}`);
                 }
             }
-            setStudents(studentNames);
 
+            // Set the course state with course data and include the studentNamesById
+            setCourse({ ...courseData });
+            setStudents(studentNamesById)
         };
 
-        fetchCourse(courseId);
+        if (courseId) {
+            fetchCourse(courseId);
+        }
     }, [courseId]);
+
+    console.log(students)
+    console.log(course)
 
     // console.log("HERE")
     // console.log(students)
@@ -94,10 +103,6 @@ const Main = () => {
                                 
                                 <div className="row">
                                     <div className="col-sm-2"><strong>Name</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 1</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 2</strong></div>
-                                    <div className="col-sm-1"><strong>Exam 3</strong></div>
-                                    <div className="col-sm-2"><strong>Final Exam</strong></div>
                                     <div className="col-sm-2"><strong>Overall Grade</strong></div>
                                 </div>
 
