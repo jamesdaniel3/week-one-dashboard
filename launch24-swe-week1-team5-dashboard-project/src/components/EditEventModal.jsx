@@ -1,55 +1,28 @@
 import React from 'react';
-import Modal from 'react-modal';
-
-Modal.setAppElement('#root');
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        width: '400px',
-        padding: '20px',
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 1000,
-    },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 999,
-    },
-};
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const EditEventModal = ({ isOpen, onRequestClose, event, onDelete }) => {
-
-    const handleDelete = () => {
-        onDelete(event.id);
-        onRequestClose();
+    const handleDelete = async () => {
+        if (event && event.id) {
+            await deleteDoc(doc(db, 'events', event.id));
+            onDelete(event.id);
+            onRequestClose();
+        }
     };
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            contentLabel="Edit Event"
-            style={customStyles}
-        >
-            <h2>Delete Event?</h2>
-            <form>
-                <button type="button" className="name" onClick={handleDelete} style={{ backgroundColor: 'red' }}>
-                    Delete Event
-                </button>
-                <button
-                    type="button"
-                    onClick={onRequestClose}
-                    style={{ padding: '10px 20px', cursor: 'pointer', zIndex: 1002}}
-                >
-                    Cancel
-                </button>
-            </form>
+        <Modal show={isOpen} onHide={onRequestClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete Event</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this event?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onRequestClose}>Cancel</Button>
+                <Button variant="danger" onClick={handleDelete}>Delete</Button>
+            </Modal.Footer>
         </Modal>
     );
 };
