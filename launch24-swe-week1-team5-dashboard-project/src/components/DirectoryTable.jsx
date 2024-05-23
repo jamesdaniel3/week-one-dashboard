@@ -19,7 +19,8 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
-  const birthdayDate = new Date(row.info.birthday);
+  const [year, month, day] = row.info.birthday.split('-').map(num => parseInt(num, 10));
+  const birthdayDate = new Date(year, month - 1, day);
 
   //format the date
   const formattedBirthday = birthdayDate.toLocaleDateString('en-US', {
