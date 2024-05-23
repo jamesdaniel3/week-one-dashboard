@@ -32,6 +32,7 @@ const Main = () => {
             console.log('user is authenticated, getting courses for:',userData.email);
             const coursesList = await fetchCourses(userData.email);
             setCourses(coursesList);
+            console.log(coursesList)
             setCoursesGot(true);
         }
         else {
