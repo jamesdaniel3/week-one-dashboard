@@ -8,6 +8,7 @@ import fetchTableInfo from "../utils/fetchTableInfo";
 import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
 import AddProfessorModal from "../components/AddProfessorModal.jsx";
+import AddStudentModal from "../components/AddStudentModal.jsx";
 import { useParams } from "react-router-dom";
 
 const Main = () => {
@@ -18,6 +19,8 @@ const Main = () => {
     const [classAverage, setClassAverage] = useState(0);
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
+    const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+
 
     // a note about the add student button
         // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
@@ -46,6 +49,7 @@ const Main = () => {
     }, [courseId]);
 
     const handleCloseModal = () => setShowModal(false);
+    const handleCloseAddStudentModal = () => setShowAddStudentModal(false);
 
     if (gradesByStudent) {
         return (
@@ -63,7 +67,10 @@ const Main = () => {
                                     <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
                                 </div>
                                 <center><div className="Roster">Roster</div></center>
-                                <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
+                                <div className="SecondHeader"><span className="Students">Students</span>
+                                    <Button onClick={() => setShowAddStudentModal(true)}>Add Students</Button>
+                                </div>
+                                {/* <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div> */}
                                 <div className="row">
                                     <div className="col-sm-2"><strong>Name</strong></div>
                                     {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
@@ -85,6 +92,7 @@ const Main = () => {
                     </div>
                 </div>
                 <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+                <AddStudentModal courseId={courseId} show={showAddStudentModal} handleClose={handleCloseAddStudentModal} />
             </>
         );
     }
