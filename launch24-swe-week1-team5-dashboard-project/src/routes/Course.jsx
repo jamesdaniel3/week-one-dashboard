@@ -24,7 +24,7 @@ const Main = () => {
             setGradesByStudent(gradesByStudentData);
             const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
             setStudentFinalGrades(finalGrades);
-            const [average, grade] = calculateAverageClassGrade(studentFinalGrades);
+            const [average, grade] = await calculateAverageClassGrade(studentFinalGrades, courseId);
             setClassAverage(average);
             setClassGrade(grade);
         }
