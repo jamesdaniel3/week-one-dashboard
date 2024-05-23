@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
-import fetchCourses from "../utils/fetchCourses";
-import fetchStudents from "../utils/fetchStudents";
-import {useParams} from "react-router-dom";
+import fetchTableInfo from "../utils/fetchTableInfo";
 import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
 import { db } from "../firebase";
+import {useParams} from "react-router-dom";
+
 
 const averageScore = 90;
 
@@ -26,58 +26,15 @@ const Main = () => {
     const { courseId } = useParams(); // Extract course ID from URL
     const [course, setCourse] = useState(null);
     const [students, setStudents] = useState([]);
+    const [gradesByStudent, setGradesByStudent] = useState({});
 
     useEffect(() => {
-        const fetchCourse = async (courseId) => {
-            const courseDocRef = doc(db, "courses", courseId);
-            const courseDocSnap = await getDoc(courseDocRef);
-
-            if (!courseDocSnap.exists()) {
-                console.log("No such course!");
-                return;
-            }
-
-            const courseData = courseDocSnap.data();
-            const studentIds = courseData.students;
-
-            // Initialize an empty object for student names keyed by their IDs
-            let studentNamesById = {};
-
-            for (const studentId of studentIds) {
-                const studentDocRef = doc(db, "students", studentId);
-                const studentDocSnap = await getDoc(studentDocRef);
-
-                if (studentDocSnap.exists()) {
-                    // Assign the student's name to their ID in the object
-                    studentNamesById[studentId] = studentDocSnap.data().name;
-                } else {
-                    console.log(`No such student with ID: ${studentId}`);
-                }
-            }
-
-            // Set the course state with course data and include the studentNamesById
-            setCourse({ ...courseData });
-            setStudents(studentNamesById)
-        };
-
-        if (courseId) {
-            fetchCourse(courseId);
+        const getTableInfo = async () => {
+            const infoList = await fetchTableInfo(courseId);
+            console.log(infoList);
         }
+        getTableInfo();
     }, [courseId]);
-
-    console.log(students)
-    console.log(course)
-
-    // console.log("HERE")
-    // console.log(students)
-    // console.log(course)
-
-
-    //remove student from the class
-    //add students to the class
-
-    //remove assignments
-    //add assignmnets
 
     //edit student grades for each assignment
     const courseTitle = "AP Calculus";
