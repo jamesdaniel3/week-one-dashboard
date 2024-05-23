@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 
-export const AddCourseModal = ({ courseId, show, handleClose, user }) => {
+export const AddCourseModal = ({ show, handleClose, user }) => {
 
     const [courseTitle, setCourseTitle] = useState('');
     const [courseDesc, setCourseDesc] = useState('');
@@ -16,16 +16,34 @@ export const AddCourseModal = ({ courseId, show, handleClose, user }) => {
         if(courseTitle == '' || courseDesc == '' || courseID == '' || courseLimit == 0 || courseColor == '') {
             console.log('data not filled!');
         }
-        const course = {
+
+        else {
+            const id = courseID.split(' ');
+            const category = id[0].toUpperCase();
+            const number = id[1];
+
+            const course = {
+                'category': category,
+                'number': number,
                 'title': courseTitle,
                 'desc': courseDesc,
-                'ID': courseID,
-                'limit': courseLimit,
+                'enrollment_cap': parseInt(courseLimit),
                 'color': courseColor,
                 'professor': user,
+                'avg_grade': 0,
+                'students': [],
+                'assignments': {},
+            }
+            const docRef = await addDoc(collection(db, 'courses'), course);
+            const teacherRef = await getDoc(doc(db, 'users', course.professor));
+            if (teacherRef) {
+                var taught = teacherRef.data().courses_taught;
+                await updateDoc(doc(db, 'users', course.professor), {
+                    courses_taught: taught.concat(docRef.id)
+                });
+            }
+            handleClose();
         }
-        console.log(course);
-        handleClose();
     };
 
     return (
