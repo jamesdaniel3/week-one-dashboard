@@ -2,7 +2,7 @@ import {collection, getDocs} from "firebase/firestore";
 import {db} from "../firebase";
 
 const fetchStudents = async () => {
-    const studentsCollection = collection(db, "Students");
+    const studentsCollection = collection(db, "students");
     const studentsSnapshot = await getDocs(studentsCollection);
     return studentsSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
 };
