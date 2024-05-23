@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {doc, collection, getDocs, getDoc} from "firebase/firestore";
 import NavBar from "../components/Navbar.jsx";
 import { CourseCard } from '../components/CourseCard';
 import "../styles/Dashboard.css";
@@ -7,7 +6,6 @@ import "../styles/Home.css";
 import fetchCourses from "../utils/fetchCourses";
 import {Link} from "react-router-dom";
 import {auth} from '../firebase.js';
-import {db} from '../firebase.js';
 
 const Main = () => {
     const [courses, setCourses] = useState([]);
