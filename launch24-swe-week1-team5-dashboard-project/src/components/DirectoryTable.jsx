@@ -19,6 +19,15 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
+  const birthdayDate = new Date(row.info.birthday);
+
+  //format the date
+  const formattedBirthday = birthdayDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
       <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -50,7 +59,7 @@ function Row(props) {
                   <TableBody>
                     <TableRow>
                       <TableCell component="th" scope="row">Birthday</TableCell>
-                      <TableCell>{row.info.birthday}</TableCell>
+                      <TableCell>{formattedBirthday}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell component="th" scope="row">Address</TableCell>
