@@ -21,7 +21,7 @@ function sortEvents(events) {
         };
     });
 
-    const today = new Date();
+    const today = new Date(); // this is one day behind !!!!
     const filteredEvents = processedEvents.filter(event => event.date >= today);
 
     filteredEvents.sort((a, b) => a.date - b.date);
