@@ -4,12 +4,14 @@ import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import '../styles/Course.css';
 import fetchTableInfo from "../utils/fetchTableInfo";
+import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import { useParams } from "react-router-dom";
 
 const Main = () => {
     const { courseId } = useParams(); // Extract course ID from URL
     const [course, setCourse] = useState(null);
     const [gradesByStudent, setGradesByStudent] = useState({});
+    const [studentFinalGrades, setStudentFinalGrades] = useState({});
 
     useEffect(() => {
         const getTableInfo = async () => {
@@ -23,6 +25,10 @@ const Main = () => {
 
     const averageScore = 90; // Placeholder for actual logic to calculate average score
     const letterGrade = calculateLetterGrade(averageScore);
+    useEffect(() => {
+        setStudentFinalGrades(calculateWeightedAverageGrades(gradesByStudent, course));
+    }, [gradesByStudent]);
+
 
     return (
         <>
