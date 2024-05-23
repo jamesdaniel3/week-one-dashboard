@@ -52,7 +52,7 @@ const Main = () => {
                             {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
                                 <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
                             ))}
-                            <div className="col-sm-2"><strong>Final Grade</strong></div> {/* Add Final Grade column header */}
+                            <div className="col-sm-2"><strong>Final Grade</strong></div>
                         </div>
                         {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
                             <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
@@ -60,7 +60,7 @@ const Main = () => {
                                 {Object.values(grades).map((grade, gradeIndex) => (
                                     <div key={gradeIndex} className="col-sm-2">{grade}</div>
                                 ))}
-                                <div className="col-sm-2">{studentFinalGrades[studentName]}</div> {/* Display the final grade */}
+                                <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
                             </div>
                         ))}
                     </div>
