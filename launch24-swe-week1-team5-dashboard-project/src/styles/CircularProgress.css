@@ -1,7 +1,8 @@
 .circle-wrap {
-  width: 78px; /* Adjust the size to fit better in the card */
-  height: 78px;
+  width: 180px; /* Adjust the size to fit better in the card */
+  height: 180px;
   margin-left: 16px;
+  margin-right: 16px;
 }
 
 .circle {
@@ -15,14 +16,16 @@
 }
 
 .inside-circle {
-  width: 60px;
-  height: 60px;
+  width: 155px;
+  height: 155px;
   border-radius: 50%;
-  background: #B7BFCC;
+  background: var(--main-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  font-size: 1em;
+  font-size: 2em;
   text-align: center;
+  font-family: "Lora";
+
 }
