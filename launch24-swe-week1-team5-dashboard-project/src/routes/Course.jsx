@@ -5,6 +5,7 @@ import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import StudentRow from '../components/StudentRows';
 import '../styles/Course.css';
+import '../styles/StudentRows.css';
 import fetchTableInfo from "../utils/fetchTableInfo";
 import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
@@ -89,27 +90,29 @@ const Main = () => {
                                 <div className="Roster">Roster</div>
                                 <button className="add">Add Student</button>
                                 {/* <div className="SecondHeader"><span className="Students">Students</span></div> */}
-                                <div className="row">
-                                    <div className="col-sm-2"><strong>Name</strong></div>
-                                    {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
-                                    <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
-                                    ))}
-                                    <div className="col-sm-2"><strong>Final Grade</strong></div>
+                                <div className="grades-body">
+
+                                    <div className="student-row-body">
+                                        <div className="student-row-static head">Name</div>
+                                        {course?.assignments && Object.keys(course.assignments).sort().map((assignment, index) => (
+                                        <div key={index} className="student-row-static head">{assignment}</div>
+                                        ))}
+                                        <div className="student-row-static head">Final Grade</div>
+                                    </div>
+
+                                    {
+                                        studentsInCourse.map((student, key) => {
+                                            return <StudentRow courseId={courseId} student={student} finalGrade={studentFinalGrades[student]}/>
+                                        })
+                                    }
+                                    
+                                    <Button className="add-instructor" onClick={() => setShowModal(true)}>Add Instructor to Course</Button>
+
                                 </div>
-                                {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
-                                <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                    <div className="col-sm-2">{studentName}</div>
-                                    {Object.values(grades).map((grade, gradeIndex) => (
-                                        <div key={gradeIndex} className="col-sm-2">{grade}</div>
-                                    ))}
-                                    <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
-                                </div>
-                                ))}
-                                <Button className="add-instructor" onClick={() => setShowModal(true)}>Add Instructor to Course</Button>
                         </div>
 
-                    {/* MODAL (EXISTS ON ITS OWN) */}
-                    <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+                        {/* MODAL (EXISTS ON ITS OWN) */}
+                        <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
 
 
                     </div>
