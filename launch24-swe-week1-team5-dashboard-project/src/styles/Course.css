@@ -86,3 +86,14 @@
 .course-title {
     font-size: 48px;
 }
+
+.add-instructor {
+    background-color: var(--lgreen3);
+    border: none;
+    font-family: "Lora";
+    font-size: 15px;
+}
+
+.add-instructor:hover {
+    background-color: var(--lgreen5);
+}

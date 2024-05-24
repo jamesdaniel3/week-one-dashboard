@@ -89,7 +89,7 @@ const Main = () => {
                                     <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
                                 </div>
                                 ))}
-                                <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
+                                <Button className="add-instructor" onClick={() => setShowModal(true)}>Add Instructor to Course</Button>
                         </div>
 
                     {/* MODAL (EXISTS ON ITS OWN) */}
