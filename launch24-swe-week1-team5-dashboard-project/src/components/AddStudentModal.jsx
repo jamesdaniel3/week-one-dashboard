@@ -20,6 +20,22 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
         fetchStudents();
     }, []);
 
+    const getAssignmentsForCourse = async (courseId) => {
+        try {
+          const courseDoc = await getDoc(doc(db, 'courses', courseId))
+          if (courseDoc) {
+            const assignments = courseDoc.data().assignments;
+            return assignments;
+          } else {
+            console.log('Course document not found');
+            return [];
+          }
+        } catch (error) {
+          console.error('Error getting course document:', error);
+          return [];
+        }
+      };
+
     const handleAddStudents = async () => {
         for (let student of selectedStudents) {
             const studentRef = doc(db, "students", student.id);
@@ -34,18 +50,19 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
                     grades[assignment] = 0;
                 }
             });
+
             await addDoc(collection(db, 'grades'), {
                 'student_id': student.id,
                 'course_id': courseId,
                 'assignments': grades,
             });
             await updateDoc(courseRef, {
-                students: arrayUnion(studentRef)
+                students: arrayUnion(student.id)
             });
         }
         handleClose();
     };
-    
+
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     };
