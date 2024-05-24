@@ -47,7 +47,7 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
             querySnapshot.forEach((doc) => {
                 const gradeData = doc.data();
                 for (const assignment of Object.keys(gradeData.assignments)) {
-                    grades[assignment] = 0;
+                    grades[assignment] = null;
                 }
             });
 
