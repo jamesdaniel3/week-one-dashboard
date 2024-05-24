@@ -20,25 +20,8 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
         fetchStudents();
     }, []);
 
-    const getAssignmentsForCourse = async (courseId) => {
-        try {
-          const courseDoc = await getDoc(doc(db, 'courses', courseId))
-          if (courseDoc) {
-            const assignments = courseDoc.data().assignments;
-            return assignments;
-          } else {
-            console.log('Course document not found');
-            return [];
-          }
-        } catch (error) {
-          console.error('Error getting course document:', error);
-          return [];
-        }
-      };
-
     const handleAddStudents = async () => {
         for (let student of selectedStudents) {
-            const studentRef = doc(db, "students", student.id);
             const courseRef = doc(db, "courses", courseId);
             const gradesRef = collection(db, "grades");
             const q = query(gradesRef, where("course_id", "==", courseId));
