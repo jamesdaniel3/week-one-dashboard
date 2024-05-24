@@ -6,9 +6,16 @@ import "../styles/CalendarPage.css";
 const Main = () => {
     return (
         <>
-            <div className="main-calendar">
-                <NavBar />
-                <Calendar />
+            <div className="main-home">
+                <NavBar/>
+                <div className="dash-body">
+                    <div className="dash-header">
+                        <h1> Calendar</h1>
+                    </div>
+                    <div className="main-calendar">
+                        <Calendar />
+                    </div>
+                </div>
             </div>
         </>
     )

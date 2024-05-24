@@ -67,7 +67,54 @@ const Main = () => {
     if (gradesByStudent && studentsInCourse && studentFinalGrades != []) {
         return (
             <>
-                <div className="DirContainer">
+                <div className="main-home">
+                    <NavBar/>
+                    <div className="dash-body">
+
+                        <div className="dash-header">
+                            <h1> Detailed View: {course.title} </h1>
+                        </div>
+
+                        {/* HEADER */}
+
+                        <div className={"course-banner d-flex justify-content-between align-items-center "+course.color}>
+                            <h1 className="course-title">{course?.title || "Loading course..."}</h1>
+                            <CircularProgress percentage={classAverage} letterGrade={classGrade} />
+                            {/* <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button> */}
+                        </div>
+
+                        {/* BODY */}
+
+                        <div className="course-details-body">
+                                <div className="Roster">Roster</div>
+                                <button className="add">Add Student</button>
+                                {/* <div className="SecondHeader"><span className="Students">Students</span></div> */}
+                                <div className="row">
+                                    <div className="col-sm-2"><strong>Name</strong></div>
+                                    {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
+                                    <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
+                                    ))}
+                                    <div className="col-sm-2"><strong>Final Grade</strong></div>
+                                </div>
+                                {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
+                                <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                    <div className="col-sm-2">{studentName}</div>
+                                    {Object.values(grades).map((grade, gradeIndex) => (
+                                        <div key={gradeIndex} className="col-sm-2">{grade}</div>
+                                    ))}
+                                    <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
+                                </div>
+                                ))}
+                                <Button className="add-instructor" onClick={() => setShowModal(true)}>Add Instructor to Course</Button>
+                        </div>
+
+                    {/* MODAL (EXISTS ON ITS OWN) */}
+                <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+
+
+                    </div>
+                </div>
+                {/* <div className="DirContainer">
                     <div className="DirContainer">
                         <div className="row">
                             <div className="col-sm-3">
@@ -106,8 +153,8 @@ const Main = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+                </div> */}
+                {/* <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} /> */}
             </>
         );
     }

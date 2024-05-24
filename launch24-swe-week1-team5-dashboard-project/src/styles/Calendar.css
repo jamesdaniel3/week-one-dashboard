@@ -1,7 +1,69 @@
+@import url(ColorPalette.css);
+
+:root {
+    --fc-border-color: var(--white3);
+}
+
+.fc-event-title-container {
+    background-color: var(--lgreen4);
+    color: var(--white1);
+    font-family: 'Radio Canada Big';
+    /* text-align: center; */
+}
+
+.fc-header-toolbar h2 {
+    font-family: "Lora";
+    color: var(--black1)
+}
+
+.fc-button-group button {
+    background-color: var(--white4) !important;
+    border: none !important;
+    color: var(--black5) !important;
+    font-family: "Raleway" !important;
+}
+.fc-button-group button:hover {
+    background-color: var(--white5) !important;
+}
+
+.fc-daygrid-day-top a{
+    text-decoration: none;
+    color: var(--white5)
+}
+
+/* .fc-day-today {
+    background-color: var(--lgreen1) !important;
+} */
+
+.fc-event {
+    color: var(--lgreen4);
+    border-bottom: 2px solid var(--white3);
+    border-radius: 0%;
+}
+
+.fc-daygrid-event-dot {
+    visibility: hidden;
+    width: 0px;
+}
+
 .Calendar {
-    width: 90vw;
-    height: 90vh;
-    margin: 5vh auto;
     padding: 20px;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
 }
+
+.fc-col-header {
+    font-family: "Lora";
+}
+
+.fc-col-header a {
+    text-decoration: none !important;
+    color: var(--black3)
+}
+
+.fc-today-button {
+    background-color: var(--lgreen3) !important;
+    border: none !important;
+}
+
