@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 import fetchStudents from "../utils/fetchStudents.js";
 import StudentRowsColumn from './StudentRowsColumn.jsx';
 import { db } from "../firebase";
@@ -11,6 +11,8 @@ export default function StudentRows({student, courseId}) {
     const [students, setStudents] = useState({});
     const [studentFinalGrades, setStudentFinalGrades] = useState({});
     const [studentGrades, setStudentGrades] = useState([]);
+    const [studentGradesId, setStudentGradesId] = useState(null);
+    const [studentData, setStudentData] = useState(null);
 
     // useEffect(() => {
     //     const getStudents = async () => {
@@ -24,54 +26,42 @@ export default function StudentRows({student, courseId}) {
     useEffect(() => {
         
         const getStudentGrades = async () => {
-            console.log("COURSE ID:", courseId)
-            const all_grades = await getDocs(query(collection(db, 'grades'), where('course_id', '==', courseId)));
-            if(all_grades) {
-                const ret_grades = all_grades.docs.map(x => x.data());
-                const student_grades = ret_grades.filter(function(grade) {
-                    return grade.student_id == student;
-                })
-                console.log(ret_grades);
+            const grades = await getDocs(query(collection(db, 'grades'), where('course_id', '==', courseId), where('student_id',  '==', student)));
+            if(grades) {
+                const grade_id = grades.docs.map(x => x.id);
+                const ret_grades = grades.docs.map(x => x.data());
+                setStudentGradesId(grade_id[0])
                 setStudentGrades(ret_grades);
             }
         }
+
+        const getStudentData = async () => {
+            const student_data = await getDoc(doc(db, 'students', student));
+            if(student_data) {
+                setStudentData(student_data.data())
+            }
+        }
         getStudentGrades();
+        getStudentData();
 
     }, []);
-
-    return(
-        <>
-            <div className='student-row-body'>
-                <span className='student-row-static'>
-                </span>
-                {/* <textarea className='student-row-column'>
-
-                </textarea>
-                <textarea className='student-row-column'>
-
-                </textarea>
-                <textarea className='student-row-column'>
-
-                </textarea>
-                <textarea className='student-row-column'>
-
-                </textarea>
-                <textarea className='student-row-column'>
-
-                </textarea> */}
-                {/* <StudentRowsColumn/>
-                <StudentRowsColumn/>
-                <StudentRowsColumn/>
-                <StudentRowsColumn/>
-                <StudentRowsColumn/> */}
-                {
-                    studentGrades.map( function(grade, i ) {
-                    })
-                }
-            </div>
-            {/* {students.student_number} */}
-        </>
-    );
+    if(studentGrades[0] && studentData) {
+        return(
+            <>
+                <div className='student-row-body'>
+                    <span className='student-row-static'>
+                        {studentData.name}
+                    </span>
+                    {
+                        Object.keys(studentGrades[0].assignments).map((grade, i) => {
+                            return <StudentRowsColumn grades_id={studentGradesId} grades={studentGrades} grade_title={grade}/>
+                        })
+                    }
+                </div>
+                
+            </>
+        );
+    }
 }
 
 

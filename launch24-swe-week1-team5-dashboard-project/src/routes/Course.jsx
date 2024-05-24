@@ -10,7 +10,7 @@ import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
 import AddProfessorModal from "../components/AddProfessorModal.jsx";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion,} from "firebase/firestore";
 import { db } from "../firebase";
 
 

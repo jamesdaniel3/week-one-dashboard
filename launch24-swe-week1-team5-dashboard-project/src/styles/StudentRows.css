@@ -24,6 +24,7 @@
     align-items: center;
     display: flex;
     padding-left: 4px;
+    transition: 0.3s;
 }
 
 .student-row-static {
