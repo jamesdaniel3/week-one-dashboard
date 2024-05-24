@@ -36,8 +36,8 @@ export default function Calendar() {
         setModalOpen(true);
     };
 
-    const handleEventClick = (info) => {
-        setSelectedEvent(info.event);
+    const handleEventClick = (clickInfo) => {
+        setSelectedEvent({ id: clickInfo.event.id, ...clickInfo.event.extendedProps });
         setEditModalOpen(true);
     };
 
@@ -91,8 +91,9 @@ export default function Calendar() {
                 isOpen={editModalOpen}
                 onRequestClose={() => setEditModalOpen(false)}
                 event={selectedEvent}
-                onSave={handleUpdateEvent}
-                onDelete={handleDeleteEvent}
+                onDelete={(eventId) => {
+                    setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+                }}
             />
         </div>
     );

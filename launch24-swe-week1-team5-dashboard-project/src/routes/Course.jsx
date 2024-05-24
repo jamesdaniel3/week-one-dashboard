@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
 import StudentRow from '../components/StudentRows';
@@ -15,7 +15,7 @@ import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion,} from "firebase
 import { db } from "../firebase";
 
 
-const Main = () => {
+const Course = () => {
     const { courseId } = useParams();
     const [course, setCourse] = useState(null);
     const [gradesByStudent, setGradesByStudent] = useState({});
@@ -24,17 +24,8 @@ const Main = () => {
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
 
+
     const [studentsInCourse, setStudentsInCourse] = useState(null);
-
-    // a note about the add student button
-        // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
-        // With that number, you should check if there exists a student who has that number whose id (not student id) is not in the students section of the course
-            // note that the course info  can be accessed with the courseID field
-        // If you don't find a student to add, just close the modal
-        // If you do find a student to add, you will also have to create a document in the grades collection
-            // If we make it so that grades can be updated just take all the assignments from the assignments field in class and assign all the grades as 0
-            // If we don't make it so grades can be updated I'm not sure how feasible this is
-
 
     useEffect(() => {
         const getTableInfo = async () => {
@@ -48,6 +39,15 @@ const Main = () => {
             setClassAverage(average);
             setClassGrade(grade);
         }
+        };
+
+        // Clear previous data before fetching new data
+        setCourse(null);
+        setGradesByStudent({});
+        setStudentFinalGrades({});
+        setClassAverage(0);
+        setClassGrade('F');
+
         getTableInfo();
     }, [courseId]);
 
@@ -117,9 +117,6 @@ const Main = () => {
 
                     </div>
                 </div>
-            </>
-        );
-    }
-    
 };
-export default Main;
+
+export default Course;

@@ -64,6 +64,10 @@ function Row(props) {
                       <TableCell>{formattedBirthday}</TableCell>
                     </TableRow>
                     <TableRow>
+                      <TableCell component="th" scope="row">Phone Number</TableCell>
+                      <TableCell>{row.info.phone_number}</TableCell>
+                    </TableRow>
+                    <TableRow>
                       <TableCell component="th" scope="row">Address</TableCell>
                       <TableCell>{row.info.address}</TableCell>
                     </TableRow>
@@ -138,6 +142,7 @@ export default function DirectoryTable() {
                     email: student.email,
                     info: {
                       birthday: student.birthday,
+                      phone_number: student.phone_number,
                       address: student.address,
                     }
                   }} />

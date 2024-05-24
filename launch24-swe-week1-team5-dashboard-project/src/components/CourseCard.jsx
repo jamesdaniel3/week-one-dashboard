@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/CourseCard.css';
+import { Link } from 'react-router-dom';
 
 const calculateLetterGrade = (averageGrade) => {
   if (averageGrade >= 90) return 'A';
@@ -23,24 +24,20 @@ export const CourseCard = ({ course = null, courseId = null, showProgress = fals
 
     const letterGrade = calculateLetterGrade(course.avg_grade);
 
-        return (
-            <>
-                <a href={course.route} className={"course-card " + course.color}>
-                    <div className='title'>
-                        <h1>
-                        {course.title}
-                        </h1>
-                    </div>
-                    <p className='description'>
-                        {course.desc}
-                    </p>
-                    <div className="course-card-footer">
-                        <div className={'grade-overview '+course_grade}>
-                            <span> {Math.round(course.avg_grade, 2)}% </span>
-                        </div>
-                    </div>
-                </a>
-            </>
-        )
-    }
-}
+    return (
+      <Link to={`/course/${course.id}`} className={"course-card " + course.color}>
+        <div className='title'>
+          <h1>{course.title}</h1>
+        </div>
+        <p className='description'>
+          {course.desc}
+        </p>
+        <div className="course-card-footer">
+          <div className={'grade-overview ' + course_grade}>
+            <span> {Math.round(course.avg_grade, 2)}% </span>
+          </div>
+        </div>
+      </Link>
+    );
+  }
+};
