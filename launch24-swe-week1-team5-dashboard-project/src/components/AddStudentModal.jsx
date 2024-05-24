@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
-import { collection, getDocs, query, where, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, addDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 
 const AddStudentModal = ({ courseId, show, handleClose }) => {
@@ -23,7 +23,22 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
     const handleAddStudents = async () => {
         for (let student of selectedStudents) {
             const studentRef = doc(db, "students", student.id);
-            const courseRef = db.collection('courses').doc(courseId);
+            const courseRef = doc(db, "courses", courseId);
+            const gradesRef = collection(db, "grades");
+            const q = query(gradesRef, where("course_id", "==", courseId));
+            const querySnapshot = await getDocs(q);
+            const grades = {};
+            querySnapshot.forEach((doc) => {
+                const gradeData = doc.data();
+                for (const assignment of Object.keys(gradeData.assignments)) {
+                    grades[assignment] = 0;
+                }
+            });
+            await addDoc(collection(db, 'grades'), {
+                'student_id': student.id,
+                'course_id': courseId,
+                'assignments': grades,
+            });
             await updateDoc(courseRef, {
                 students: arrayUnion(studentRef)
             });
@@ -31,26 +46,6 @@ const AddStudentModal = ({ courseId, show, handleClose }) => {
         handleClose();
     };
     
-    // const handleAddStudents = (students) => {
-    //     const addStudentToCourse = async (courseId, studentId) => {
-    //         try {
-    //           const courseRef = db.collection('courses').doc(courseId);
-    //           await courseRef.update({
-    //             students: firebase.firestore.FieldValue.arrayUnion(studentId)
-    //           });
-      
-    //           console.log('Student added successfully');
-    //         } catch (error) {
-    //           // Handle any errors that occur during the process
-    //           console.error('Error adding student to course:', error);
-    //         }
-    //       };
-    //     students.forEach(student => {
-    //         const studentId = student.id
-    //         addStudentToCourse(courseId, studentId)
-    //     });
-    // };
-
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     };
