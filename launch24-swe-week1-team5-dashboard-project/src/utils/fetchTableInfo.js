@@ -1,23 +1,43 @@
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
-
-const data = [];
+// Utility function to add unique objects to the data array
+const addObjectIfUnique = (data, obj) => {
+    const isDuplicate = data.some(existingObj => JSON.stringify(existingObj) === JSON.stringify(obj));
+    if (!isDuplicate) {
+        data.push(obj);
+    }
+};
 
 const fetchTableInfo = async (courseId) => {
-    const courseDocRef = doc(db, "courses", courseId);
-    const courseDocSnap = await getDoc(courseDocRef);
-    if (!courseDocSnap.exists()) {
-        console.log("No such course!");
-        return;
-    }
-    const courseData = courseDocSnap.data();
-    addObjectIfUnique(courseData);
-    await createStudentMap(courseData.students);
-    await createGradeMap(courseId)
-    console.log('data:',data);
-    return data
+    const data = []; // Reset data array for each call
 
+    try {
+        // Fetch course data
+        const courseDocRef = doc(db, "courses", courseId);
+        const courseDocSnap = await getDoc(courseDocRef);
+        if (!courseDocSnap.exists()) {
+            console.log("No such course!");
+            return data; // Return empty data array if course doesn't exist
+        }
+        const courseData = courseDocSnap.data();
+        addObjectIfUnique(data, courseData);
+
+        // Fetch student data
+        const studentNamesById = await createStudentMap(courseData.students);
+        addObjectIfUnique(data, studentNamesById);
+
+        // Fetch grades data
+        const gradesMap = await createGradeMap(courseId, studentNamesById);
+        addObjectIfUnique(data, gradesMap);
+
+        console.log('data:', data);
+        return data;
+
+    } catch (error) {
+        console.error("Error fetching table info: ", error);
+        return data;
+    }
 };
 
 const createStudentMap = async (studentIds) => {
@@ -28,20 +48,17 @@ const createStudentMap = async (studentIds) => {
         const studentDocSnap = await getDoc(studentDocRef);
 
         if (studentDocSnap.exists()) {
-            // Assign the student's name to their ID in the object
             studentNamesById[studentId] = studentDocSnap.data().name;
         } else {
             console.log(`No such student with ID: ${studentId}`);
         }
     }
 
-    addObjectIfUnique(studentNamesById)
+    return studentNamesById;
+};
 
-}
-
-const createGradeMap = async (courseId) => {
+const createGradeMap = async (courseId, studentNamesById) => {
     let gradesMap = {};
-    const studentNamesById = data[1];
 
     for (const studentId of Object.keys(studentNamesById)) {
         const gradesRef = collection(db, "grades");
@@ -57,15 +74,7 @@ const createGradeMap = async (courseId) => {
         gradesMap[studentNamesById[studentId]] = studentGrades;
     }
 
-    addObjectIfUnique(gradesMap);
-}
-
-const addObjectIfUnique = (obj) => {
-    const isDuplicate = data.some(existingObj => JSON.stringify(existingObj) === JSON.stringify(obj));
-    if (!isDuplicate) {
-        data.push(obj);
-    }
+    return gradesMap;
 };
-
 
 export default fetchTableInfo;
