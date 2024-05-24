@@ -64,7 +64,7 @@ const Main = () => {
 
     const handleCloseModal = () => setShowModal(false);
 
-    if (gradesByStudent && studentsInCourse && studentFinalGrades != []) {
+    if (gradesByStudent && studentsInCourse && studentFinalGrades != [] && course) {
         return (
             <>
                 <div className="main-home">
@@ -109,94 +109,11 @@ const Main = () => {
                         </div>
 
                     {/* MODAL (EXISTS ON ITS OWN) */}
-                <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+                    <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
 
 
                     </div>
                 </div>
-                {/* <div className="DirContainer">
-                    <div className="DirContainer">
-                        <div className="row">
-                            <div className="col-sm-3">
-                                <NavBar />
-                            </div>
-                            <div className="col-sm-9">
-                                <div className="course-banner d-flex justify-content-between align-items-center">
-                                    <h1>{course?.title || "Loading course..."}</h1>
-                                    <CircularProgress percentage={classAverage} letterGrade={classGrade} />
-                                    <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
-                                </div>
-                                <center><div className="Roster">Roster</div></center>
-                                <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
-                                
-                                <div className="grades-body">
-                                    <div className="grades-titles">
-                                        <div className="student-row-body">
-                                            <div className="student-row-static head">
-                                                Name
-                                            </div>
-                                            {course?.assignments && Object.keys(course.assignments).sort().map((assignment, index) => (
-                                                <div key={index} className="student-row-static head"> {assignment} </div>
-                                            ))}
-                                            <div className="student-row-static head">
-                                                FINAL GRADE
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        studentsInCourse.map((student, key) => {
-                                            return <StudentRow courseId={courseId} student={student} finalGrade={studentFinalGrades[student]}/>
-                                        })
-                                    }
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-                {/* <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} /> */}
-            </>
-        );
-    }
-
-    else {
-        return (
-            <>
-                <div className="DirContainer">
-                    <div className="DirContainer">
-                        <div className="row">
-                            <div className="col-sm-3">
-                                <NavBar />
-                            </div>
-                            <div className="col-sm-9">
-                                <div className="course-banner d-flex justify-content-between align-items-center">
-                                    <h1>{course?.title || "Loading course..."}</h1>
-                                    {/* <CircularProgress percentage={classAverage} letterGrade={classGrade} /> */}
-                                    <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
-                                </div>
-                                 <center><div className="Roster">Roster</div></center>
-                                <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
-                                {/*<div className="row">
-                                    <div className="col-sm-2"><strong>Name</strong></div>
-                                    {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
-                                        <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
-                                    ))}
-                                    <div className="col-sm-2"><strong>Final Grade</strong></div>
-                                </div>
-                                {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
-                                    <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                        <div className="col-sm-2">{studentName}</div>
-                                        {Object.values(grades).map((grade, gradeIndex) => (
-                                            <div key={gradeIndex} className="col-sm-2">{grade}</div>
-                                        ))}
-                                        <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
-                                    </div>
-                                ))} */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
             </>
         );
     }
