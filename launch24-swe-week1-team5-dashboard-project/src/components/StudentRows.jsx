@@ -5,7 +5,7 @@ import StudentRowsColumn from './StudentRowsColumn.jsx';
 import { db } from "../firebase";
 import '../styles/StudentRows.css';
 
-export default function StudentRows({student, courseId}) {
+export default function StudentRows({student, courseId, finalGrade}) {
 
     const [course, setCourse] = useState(null);
     const [students, setStudents] = useState({});
@@ -53,10 +53,13 @@ export default function StudentRows({student, courseId}) {
                         {studentData.name}
                     </span>
                     {
-                        Object.keys(studentGrades[0].assignments).map((grade, i) => {
+                        Object.keys(studentGrades[0].assignments).sort().map((grade, i) => {
                             return <StudentRowsColumn grades_id={studentGradesId} grades={studentGrades} grade_title={grade}/>
                         })
                     }
+                    <span className='student-row-static'>
+                        {finalGrade}
+                    </span>
                 </div>
                 
             </>

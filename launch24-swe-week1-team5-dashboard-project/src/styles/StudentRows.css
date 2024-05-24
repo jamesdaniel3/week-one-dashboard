@@ -1,7 +1,11 @@
 @import url(ColorPalette.css);
 
-.student-row-body {
+.grades-body {
+    overflow-x: scroll;
     width: 100%;
+}
+
+.student-row-body {
     /* border: 2px solid red; */
     height: 40px;
     background-color: var(--white2);
@@ -15,8 +19,8 @@
 .student-row-column {
     height: 100%;
     background-color: var(--white3);
-    min-width: 100px;
-    width: auto;
+    width: 150px;
+    min-width: 150px;
     resize: none;
     border: none;
     font-family: 'Raleway';
@@ -30,7 +34,7 @@
 .student-row-static {
     height: 100%;
     background-color: var(--white3);
-    min-width: 100px;
+    min-width: 150px;
     width: auto;
     border: none;
     font-family: 'Raleway';
@@ -38,4 +42,11 @@
     align-items: center;
     display: flex;
     padding-left: 4px;
+}
+
+.head {
+    font-family: "Lora" !important;
+    font-weight: 800;
+    font-size: 13px;
+    border-bottom: 2px solid var(--white5)
 }

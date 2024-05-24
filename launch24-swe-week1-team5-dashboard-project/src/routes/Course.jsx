@@ -23,7 +23,7 @@ const Main = () => {
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
 
-    const [studentsInCourse, setStudentsInCourse] = useState([]);
+    const [studentsInCourse, setStudentsInCourse] = useState(null);
 
     // a note about the add student button
         // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
@@ -35,26 +35,24 @@ const Main = () => {
             // If we don't make it so grades can be updated I'm not sure how feasible this is
 
 
-    // useEffect(() => {
-    //     const getTableInfo = async () => {
-    //         const infoList = await fetchTableInfo(courseId);
-    //         const [courseData, , gradesByStudentData] = infoList;
-    //         setCourse(courseData);
-    //         setGradesByStudent(gradesByStudentData);
-    //         const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
-    //         setStudentFinalGrades(finalGrades);
-    //         const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
-    //         setClassAverage(average);
-    //         setClassGrade(grade);
-    //         console.log(course, gradesByStudent);
-    //     }
-    //     getTableInfo();
-    // }, [courseId]);
+    useEffect(() => {
+        const getTableInfo = async () => {
+            const infoList = await fetchTableInfo(courseId);
+            const [courseData, , gradesByStudentData] = infoList;
+            setCourse(courseData);
+            setGradesByStudent(gradesByStudentData);
+            const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
+            setStudentFinalGrades(finalGrades);
+            const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
+            setClassAverage(average);
+            setClassGrade(grade);
+        }
+        getTableInfo();
+    }, [courseId]);
 
     useEffect(() => {
         // function to get an array of students enrolled in this course (to display in the columns)
         const getStudentsInCourse = async () => {
-            console.log("GETTING STUDENTS FOR COURSE:",courseId);
             const docRef = await getDoc(doc(db, 'courses', courseId));
             if (docRef) {
                 setStudentsInCourse(docRef.data().students);
@@ -66,7 +64,7 @@ const Main = () => {
 
     const handleCloseModal = () => setShowModal(false);
 
-    if (gradesByStudent) {
+    if (gradesByStudent && studentsInCourse && studentFinalGrades != []) {
         return (
             <>
                 <div className="DirContainer">
@@ -83,23 +81,28 @@ const Main = () => {
                                 </div>
                                 <center><div className="Roster">Roster</div></center>
                                 <div className="SecondHeader"><span className="Students">Students</span><button className="add">Add Student</button></div>
-                                <div className="row">
-                                    <div className="col-sm-2"><strong>Name</strong></div>
-                                    {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
-                                        <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
-                                    ))}
-                                    <div className="col-sm-2"><strong>Final Grade</strong></div>
-                                </div>
-                                {/* {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
-                                    <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                        <div className="col-sm-2">{studentName}</div>
-                                        {Object.values(grades).map((grade, gradeIndex) => (
-                                            <div key={gradeIndex} className="col-sm-2">{grade}</div>
-                                        ))}
-                                        <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
+                                
+                                <div className="grades-body">
+                                    <div className="grades-titles">
+                                        <div className="student-row-body">
+                                            <div className="student-row-static head">
+                                                Name
+                                            </div>
+                                            {course?.assignments && Object.keys(course.assignments).sort().map((assignment, index) => (
+                                                <div key={index} className="student-row-static head"> {assignment} </div>
+                                            ))}
+                                            <div className="student-row-static head">
+                                                FINAL GRADE
+                                            </div>
+                                        </div>
                                     </div>
-                                ))} */}
-                                <StudentRow courseId={courseId} student={'br5LszklShayiuBrYOeV'}/>
+                                    {
+                                        studentsInCourse.map((student, key) => {
+                                            return <StudentRow courseId={courseId} student={student} finalGrade={studentFinalGrades[student]}/>
+                                        })
+                                    }
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

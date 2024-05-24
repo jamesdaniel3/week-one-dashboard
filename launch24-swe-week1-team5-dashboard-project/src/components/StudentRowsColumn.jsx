@@ -25,14 +25,13 @@ export default function StudentRowsColumn({grades_id, grades, grade_title}) {
     
     return (
         <>
-            <textarea className='student-row-column' onChange={(e) => {
+            <textarea value={fieldData} className='student-row-column' onChange={(e) => {
                 setFieldData(e.target.value);
                 if(!dataChanged) {
                     console.log('data changed!');
                     setDataChanged(true);
                 }
                 }}>
-                {fieldData}
             </textarea>
             
             {dataChanged &&
