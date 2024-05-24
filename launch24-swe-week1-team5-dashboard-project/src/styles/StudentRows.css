@@ -1,0 +1,52 @@
+@import url(ColorPalette.css);
+
+.grades-body {
+    overflow-x: scroll;
+    width: 100%;
+}
+
+.student-row-body {
+    /* border: 2px solid red; */
+    height: 40px;
+    background-color: var(--white2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+    gap: 4px;
+}
+
+.student-row-column {
+    height: 100%;
+    background-color: var(--white3);
+    width: 150px;
+    min-width: 150px;
+    resize: none;
+    border: none;
+    font-family: 'Raleway';
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    padding-left: 4px;
+    transition: 0.3s;
+}
+
+.student-row-static {
+    height: 100%;
+    background-color: var(--white3);
+    min-width: 150px;
+    width: auto;
+    border: none;
+    font-family: 'Raleway';
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    padding-left: 4px;
+}
+
+.head {
+    font-family: "Lora" !important;
+    font-weight: 800;
+    font-size: 13px;
+    border-bottom: 2px solid var(--white5)
+}

@@ -47,6 +47,8 @@ button.hide-button img.hidden {
     flex-direction: column;
     overflow: hidden;
     transition: 0.5s;
+    max-height: 100vh;
+    position: fixed;
 }
 
 .navbar-header {
@@ -133,4 +135,12 @@ button.hide-button img.hidden {
 
 .logout {
     border-top: 2px solid var(--lgreen4);
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--dgreen3);
 }

@@ -3,12 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import CircularProgress from "../components/CircularProgress.jsx";
 import NavBar from "../components/Navbar.jsx";
+import StudentRow from '../components/StudentRows';
 import '../styles/Course.css';
+import '../styles/StudentRows.css';
 import fetchTableInfo from "../utils/fetchTableInfo";
 import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
 import AddProfessorModal from "../components/AddProfessorModal.jsx";
 import { useParams } from "react-router-dom";
+import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion,} from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const Course = () => {
     const { courseId } = useParams();
@@ -18,6 +23,9 @@ const Course = () => {
     const [classAverage, setClassAverage] = useState(0);
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
+
+
+    const [studentsInCourse, setStudentsInCourse] = useState(null);
 
     useEffect(() => {
         const getTableInfo = async () => {
@@ -30,6 +38,7 @@ const Course = () => {
             const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
             setClassAverage(average);
             setClassGrade(grade);
+        }
         };
 
         // Clear previous data before fetching new data
@@ -42,50 +51,72 @@ const Course = () => {
         getTableInfo();
     }, [courseId]);
 
+    useEffect(() => {
+        // function to get an array of students enrolled in this course (to display in the columns)
+        const getStudentsInCourse = async () => {
+            const docRef = await getDoc(doc(db, 'courses', courseId));
+            if (docRef) {
+                setStudentsInCourse(docRef.data().students);
+            }
+        }
+        getStudentsInCourse();
+
+    }, []);
+
     const handleCloseModal = () => setShowModal(false);
 
-    return (
-        <>
-            <div className="DirContainer">
-                <div className="DirContainer">
-                    <div className="row">
-                        <div className="col-sm-3">
-                            <NavBar />
+    if (gradesByStudent && studentsInCourse && studentFinalGrades != [] && course) {
+        return (
+            <>
+                <div className="main-home">
+                    <NavBar/>
+                    <div className="dash-body">
+
+                        <div className="dash-header">
+                            <h1> Detailed View: {course.title} </h1>
                         </div>
-                        <div className="col-sm-9">
-                            <div className="course-banner d-flex justify-content-between align-items-center">
-                                <h1>{course?.title || "Loading course..."}</h1>
-                                <CircularProgress percentage={classAverage} letterGrade={classGrade} />
-                                <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button>
-                            </div>
-                            <center><div className="Roster">Roster</div></center>
-                            <div className="SecondHeader">
-                                <span className="Students">Students</span>
+
+                        {/* HEADER */}
+
+                        <div className={"course-banner d-flex justify-content-between align-items-center "+course.color}>
+                            <h1 className="course-title">{course?.title || "Loading course..."}</h1>
+                            <CircularProgress percentage={classAverage} letterGrade={classGrade} />
+                            {/* <Button onClick={() => setShowModal(true)}>Add Professor to Course</Button> */}
+                        </div>
+
+                        {/* BODY */}
+
+                        <div className="course-details-body">
+                                <div className="Roster">Roster</div>
                                 <button className="add">Add Student</button>
-                            </div>
-                            <div className="row">
-                                <div className="col-sm-2"><strong>Name</strong></div>
-                                {course?.assignments && Object.keys(course.assignments).map((assignment, index) => (
-                                    <div key={index} className="col-sm-2"><strong>{assignment}</strong></div>
-                                ))}
-                                <div className="col-sm-2"><strong>Final Grade</strong></div>
-                            </div>
-                            {Object.entries(gradesByStudent).map(([studentName, grades], index) => (
-                                <div key={index} className={`row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                    <div className="col-sm-2">{studentName}</div>
-                                    {Object.values(grades).map((grade, gradeIndex) => (
-                                        <div key={gradeIndex} className="col-sm-2">{grade}</div>
-                                    ))}
-                                    <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
+                                {/* <div className="SecondHeader"><span className="Students">Students</span></div> */}
+                                <div className="grades-body">
+
+                                    <div className="student-row-body">
+                                        <div className="student-row-static head">Name</div>
+                                        {course?.assignments && Object.keys(course.assignments).sort().map((assignment, index) => (
+                                        <div key={index} className="student-row-static head">{assignment}</div>
+                                        ))}
+                                        <div className="student-row-static head">Final Grade</div>
+                                    </div>
+
+                                    {
+                                        studentsInCourse.map((student, key) => {
+                                            return <StudentRow courseId={courseId} student={student} finalGrade={studentFinalGrades[student]}/>
+                                        })
+                                    }
+                                    
+                                    <Button className="add-instructor" onClick={() => setShowModal(true)}>Add Instructor to Course</Button>
+
                                 </div>
-                            ))}
                         </div>
+
+                        {/* MODAL (EXISTS ON ITS OWN) */}
+                        <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
+
+
                     </div>
                 </div>
-            </div>
-            <AddProfessorModal courseId={courseId} show={showModal} handleClose={handleCloseModal} />
-        </>
-    );
 };
 
 export default Course;

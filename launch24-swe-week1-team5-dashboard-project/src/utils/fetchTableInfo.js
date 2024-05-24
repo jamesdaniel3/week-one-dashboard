@@ -10,6 +10,17 @@ const addObjectIfUnique = (data, obj) => {
 };
 
 const fetchTableInfo = async (courseId) => {
+    const courseDocRef = doc(db, "courses", courseId);
+    const courseDocSnap = await getDoc(courseDocRef);
+    if (!courseDocSnap.exists()) {
+        console.log("No such course!");
+        return;
+    }
+    const courseData = courseDocSnap.data();
+    addObjectIfUnique(courseData);
+    await createStudentMap(courseData.students);
+    await createGradeMap(courseId)
+    return data
     const data = []; // Reset data array for each call
 
     try {
@@ -71,7 +82,7 @@ const createGradeMap = async (courseId, studentNamesById) => {
             studentGrades = { ...studentGrades, ...gradeData.assignments };
         });
 
-        gradesMap[studentNamesById[studentId]] = studentGrades;
+        gradesMap[studentId] = studentGrades;
     }
 
     return gradesMap;

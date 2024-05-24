@@ -1,6 +1,5 @@
 function calculateWeightedAverageGrades(gradesByStudent, course){
     const weightedAverages = {};
-
     Object.entries(gradesByStudent).forEach(([studentName, grades]) => {
         let totalWeightedGrades = 0;
         let totalWeights = 0;
