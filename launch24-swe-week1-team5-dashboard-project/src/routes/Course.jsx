@@ -10,6 +10,9 @@ import calculateWeightedAverageGrades from "../utils/calculateStudentAverage";
 import calculateAverageClassGrade from "../utils/calculateAverageClassGrade";
 import AddProfessorModal from "../components/AddProfessorModal.jsx";
 import { useParams } from "react-router-dom";
+import { doc, getDoc, addDoc, collection, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const Main = () => {
     const { courseId } = useParams();
@@ -19,6 +22,8 @@ const Main = () => {
     const [classAverage, setClassAverage] = useState(0);
     const [classGrade, setClassGrade] = useState('F');
     const [showModal, setShowModal] = useState(false);
+
+    const [studentsInCourse, setStudentsInCourse] = useState([]);
 
     // a note about the add student button
         // I would implement it by taking in a student ID number (not the same as id, the field is student_id)
@@ -30,21 +35,34 @@ const Main = () => {
             // If we don't make it so grades can be updated I'm not sure how feasible this is
 
 
+    // useEffect(() => {
+    //     const getTableInfo = async () => {
+    //         const infoList = await fetchTableInfo(courseId);
+    //         const [courseData, , gradesByStudentData] = infoList;
+    //         setCourse(courseData);
+    //         setGradesByStudent(gradesByStudentData);
+    //         const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
+    //         setStudentFinalGrades(finalGrades);
+    //         const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
+    //         setClassAverage(average);
+    //         setClassGrade(grade);
+    //         console.log(course, gradesByStudent);
+    //     }
+    //     getTableInfo();
+    // }, [courseId]);
+
     useEffect(() => {
-        const getTableInfo = async () => {
-            const infoList = await fetchTableInfo(courseId);
-            const [courseData, , gradesByStudentData] = infoList;
-            setCourse(courseData);
-            setGradesByStudent(gradesByStudentData);
-            const finalGrades = calculateWeightedAverageGrades(gradesByStudentData, courseData);
-            setStudentFinalGrades(finalGrades);
-            const [average, grade] = await calculateAverageClassGrade(finalGrades, courseId); // Ensure finalGrades is used
-            setClassAverage(average);
-            setClassGrade(grade);
-            console.log(course, gradesByStudent);
+        // function to get an array of students enrolled in this course (to display in the columns)
+        const getStudentsInCourse = async () => {
+            console.log("GETTING STUDENTS FOR COURSE:",courseId);
+            const docRef = await getDoc(doc(db, 'courses', courseId));
+            if (docRef) {
+                setStudentsInCourse(docRef.data().students);
+            }
         }
-        getTableInfo();
-    }, [courseId]);
+        getStudentsInCourse();
+
+    }, []);
 
     const handleCloseModal = () => setShowModal(false);
 
@@ -81,7 +99,7 @@ const Main = () => {
                                         <div className="col-sm-2">{studentFinalGrades[studentName]}</div>
                                     </div>
                                 ))} */}
-                                <StudentRow />
+                                <StudentRow courseId={courseId} student={'br5LszklShayiuBrYOeV'}/>
                             </div>
                         </div>
                     </div>

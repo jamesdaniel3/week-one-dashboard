@@ -1,0 +1,40 @@
+@import url(ColorPalette.css);
+
+.student-row-body {
+    width: 100%;
+    /* border: 2px solid red; */
+    height: 40px;
+    background-color: var(--white2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+    gap: 4px;
+}
+
+.student-row-column {
+    height: 100%;
+    background-color: var(--white3);
+    min-width: 100px;
+    width: auto;
+    resize: none;
+    border: none;
+    font-family: 'Raleway';
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    padding-left: 4px;
+}
+
+.student-row-static {
+    height: 100%;
+    background-color: var(--white3);
+    min-width: 100px;
+    width: auto;
+    border: none;
+    font-family: 'Raleway';
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    padding-left: 4px;
+}

@@ -1,25 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import fetchStudents from "../utils/fetchStudents.js";
+import StudentRowsColumn from './StudentRowsColumn.jsx';
+import { db } from "../firebase";
+import '../styles/StudentRows.css';
 
-export default function StudentRows(){
+export default function StudentRows({student, courseId}) {
 
     const [course, setCourse] = useState(null);
     const [students, setStudents] = useState({});
     const [studentFinalGrades, setStudentFinalGrades] = useState({});
+    const [studentGrades, setStudentGrades] = useState([]);
+
+    // useEffect(() => {
+    //     const getStudents = async () => {
+    //         const studentList = await fetchStudents();
+    //         setStudents(studentList);
+    //         console.log(studentList);
+    //     };
+    //     getStudents();
+    // }, []);
 
     useEffect(() => {
-        const getStudents = async () => {
-            const studentList = await fetchStudents();
-            setStudents(studentList);
-            console.log(studentList);
-        };
-        getStudents();
+        
+        const getStudentGrades = async () => {
+            console.log("COURSE ID:", courseId)
+            const all_grades = await getDocs(query(collection(db, 'grades'), where('course_id', '==', courseId)));
+            if(all_grades) {
+                const ret_grades = all_grades.docs.map(x => x.data());
+                const student_grades = ret_grades.filter(function(grade) {
+                    return grade.student_id == student;
+                })
+                console.log(ret_grades);
+                setStudentGrades(ret_grades);
+            }
+        }
+        getStudentGrades();
+
     }, []);
 
     return(
         <>
-            {students.student_number}
+            <div className='student-row-body'>
+                <span className='student-row-static'>
+                </span>
+                {/* <textarea className='student-row-column'>
+
+                </textarea>
+                <textarea className='student-row-column'>
+
+                </textarea>
+                <textarea className='student-row-column'>
+
+                </textarea>
+                <textarea className='student-row-column'>
+
+                </textarea>
+                <textarea className='student-row-column'>
+
+                </textarea> */}
+                {/* <StudentRowsColumn/>
+                <StudentRowsColumn/>
+                <StudentRowsColumn/>
+                <StudentRowsColumn/>
+                <StudentRowsColumn/> */}
+                {
+                    studentGrades.map( function(grade, i ) {
+                    })
+                }
+            </div>
+            {/* {students.student_number} */}
         </>
     );
 }
